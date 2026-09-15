@@ -185,7 +185,6 @@ app/src/main/
 
 Каждая заметка — файл `<uuid>.md` в `filesDir/notes/` с YAML frontmatter:
 
-````markdown
 ---
 title: Заголовок заметки
 tags: [работа, идеи]
@@ -201,7 +200,6 @@ pinned: false
 
 ```kotlin
 fun main() = println("Hello, Oniks")
-```
 ```
 
 Заголовок хранится внутри YAML, а не в имени файла. Это гарантирует отсутствие коллизий и корректный экспорт/импорт.
