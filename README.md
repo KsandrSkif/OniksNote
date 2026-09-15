@@ -129,18 +129,6 @@ org.commonmark:commonmark-ext-gfm-tables:0.22.0
 
 ---
 
-## Сборка
-
-Проект собирается в **CodeAssist** (мобильная IDE) — без Gradle.
-
-1. Открой проект в CodeAssist.
-2. Добавь зависимости через раздел **Модуль app → Зависимости → «+»** (список выше, по одной).
-3. Включи **View Binding** в настройках модуля.
-4. Собери APK кнопкой сборки.
-
-Если собираешь в Android Studio — создай `build.gradle.kts` с теми же зависимостями, `namespace = "com.oniksnotes"`, `minSdk = 26`, `targetSdk = 34`, `viewBinding = true`.
-
----
 
 ## Структура проекта
 
