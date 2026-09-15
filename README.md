@@ -221,8 +221,6 @@ Mikihisa
 
 ---
 
-## Что ещё положить в репозиторий
-
 **LICENSE** (корень):
 
 
@@ -247,37 +245,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-**.gitignore** (корень):
-
-
-# Android
-*.apk
-*.aab
-*.ap_
-*.dex
-*.class
-bin/
-gen/
-out/
-release/
-*.jks
-*.keystore
-
-# IDE
-.idea/
-*.iml
-.vscode/
-.gradle/
-local.properties
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Build
-build/
-captures/
-.externalNativeBuild/
-.cxx/
