@@ -1,17 +1,18 @@
 # Оникс
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android">
-  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin">
-  <img src="https://img.shields.io/badge/Local--First-9C27B0?style=for-the-badge" alt="Local-First">
-  <img src="https://img.shields.io/badge/MIT-2EA043?style=for-the-badge" alt="MIT">
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=plastic&logo=android&logoColor=white" alt="Android">
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=plastic&logo=kotlin&logoColor=white" alt="Kotlin">
+  <img src="https://img.shields.io/badge/minSdk-26-1976D2?style=plastic" alt="minSdk 26">
+  <img src="https://img.shields.io/badge/targetSdk-34-1976D2?style=plastic" alt="targetSdk 34">
+  <img src="https://img.shields.io/badge/Material_3-757575?style=plastic" alt="Material 3">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/minSdk-26-blue?style=flat-square" alt="minSdk 26">
-  <img src="https://img.shields.io/badge/targetSdk-34-blue?style=flat-square" alt="targetSdk 34">
-  <img src="https://img.shields.io/badge/version-1.0-orange?style=flat-square" alt="version 1.0">
-  <img src="https://img.shields.io/badge/status-active-brightgreen?style=flat-square" alt="status active">
+  <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
+  <img src="https://img.shields.io/badge/Version-1.0-F57C00?style=plastic" alt="Version 1.0">
+  <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
+  <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
 
 **Голосовые заметки с локальным хранением, Markdown-рендером и графом связей.**
