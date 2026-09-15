@@ -187,11 +187,11 @@ app/src/main/
 
 ---
 
-title: Заголовок заметки
-tags: [работа, идеи]
-created: 1700000000000
-updated: 1700000000000
-pinned: false
+- title: Заголовок заметки
+- tags: [работа, идеи]
+- created: 1700000000000
+- updated: 1700000000000
+- pinned: false
 
 ---
 
