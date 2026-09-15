@@ -72,7 +72,7 @@
 
 | Home | Заметки | Просмотр |
 |---|---|---|
-| ![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg) | ![Заметки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg) | ![Просмотр](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg) |
+| ![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg) | ![Заметки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg) | ![Просмотр](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
 
 | Граф | Библиотека | Настройки |
 |---|---|---|
