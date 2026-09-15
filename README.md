@@ -186,11 +186,13 @@ app/src/main/
 Каждая заметка — файл `<uuid>.md` в `filesDir/notes/` с YAML frontmatter:
 
 ---
+
 title: Заголовок заметки
 tags: [работа, идеи]
 created: 1700000000000
 updated: 1700000000000
 pinned: false
+
 ---
 
 ## Тело заметки в Markdown
@@ -221,7 +223,7 @@ Mikihisa
 
 ---
 
-**LICENSE** (корень):
+**LICENSE**:
 
 
 MIT License
