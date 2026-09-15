@@ -285,5 +285,3 @@ captures/
 .externalNativeBuild/
 .cxx/
 ```
-
----
