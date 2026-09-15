@@ -1,12 +1,18 @@
 # Оникс
 
-![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white&style=flat-square)
-![Min SDK](https://img.shields.io/badge/minSdk-26-blue?style=flat-square)
-![Target SDK](https://img.shields.io/badge/targetSdk-34-blue?style=flat-square)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9-7F52FF?logo=kotlin&logoColor=white&style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.0-orange?style=flat-square)
-![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)
+<p align="center">
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android">
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin">
+  <img src="https://img.shields.io/badge/Local--First-9C27B0?style=for-the-badge" alt="Local-First">
+  <img src="https://img.shields.io/badge/MIT-2EA043?style=for-the-badge" alt="MIT">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/minSdk-26-blue?style=flat-square" alt="minSdk 26">
+  <img src="https://img.shields.io/badge/targetSdk-34-blue?style=flat-square" alt="targetSdk 34">
+  <img src="https://img.shields.io/badge/version-1.0-orange?style=flat-square" alt="version 1.0">
+  <img src="https://img.shields.io/badge/status-active-brightgreen?style=flat-square" alt="status active">
+</p>
 
 **Голосовые заметки с локальным хранением, Markdown-рендером и графом связей.**
 
