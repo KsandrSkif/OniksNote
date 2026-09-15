@@ -214,11 +214,11 @@ MIT License. См. LICENSE.
 
 ---
 
-### Автор
+###Автор
 
-*** Mikihisa
+**Mikihisa
 
-### По вопросам: 
+###По вопросам: 
 
 phreakO7@mail.ru
 
