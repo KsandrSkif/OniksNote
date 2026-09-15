@@ -72,7 +72,7 @@
 
 | Home | Заметки | Просмотр |
 |---|---|---|
-| ![Home](screenshots/home.png) | ![Заметки](screenshots/notes.png) | ![Просмотр](screenshots/viewer.png) |
+| ![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg) | ![Заметки](screenshots/notes.png) | ![Просмотр](screenshots/viewer.png) |
 
 | Граф | Библиотека | Настройки |
 |---|---|---|
