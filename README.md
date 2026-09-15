@@ -199,12 +199,6 @@ fun main() = println("Hello, Oniks")
 
 ---
 
-Лицензия
-
-MIT License. См. LICENSE.
-
----
-
 ### Автор
 **Mikihisa**
 
