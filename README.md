@@ -171,8 +171,11 @@ app/src/main/
 │       ├── settings/            # SettingsFragment, AboutFragment
 │       └── common/              # AudioPermissionHelper
 ├── res/
-│   ├── layout/                  # XML-вёрстка
+│   ├── anim/                    # Анимации (появление карточек)
 │   ├── drawable/                # Свои векторные иконки
+│   ├── layout/                  # XML-вёрстка экранов и элементов
+│   ├── menu/                    # Меню тулбара и BottomNavigation
+│   ├── mipmap-*/                # Иконка приложения
 │   ├── navigation/              # nav_graph.xml
 │   ├── values/                  # colors, strings, themes, styles, arrays
 │   └── xml/                     # settings.xml, shortcuts.xml, backup_rules
