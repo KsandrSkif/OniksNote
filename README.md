@@ -76,7 +76,7 @@
 
 | Граф | Библиотека | Настройки |
 |---|---|---|
-| ![Граф](https://github.com/KsandrSkif/OniksNote/releases/download/V1/6.jpg)| ![Библиотека](https://github.com/KsandrSkif/OniksNote/releases/download/V1/7.jpg)| ![Настройки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/5.jpg)|
+|![Граф](https://github.com/KsandrSkif/OniksNote/releases/download/V1/6.jpg)| ![Библиотека](https://github.com/KsandrSkif/OniksNote/releases/download/V1/7.jpg)| ![Настройки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/5.jpg)|
 
 ---
 
