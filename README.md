@@ -198,14 +198,13 @@ org.mozilla:rhino:1.7.14
 
 ---
 
-
 ## Структура проекта
 
 ```
 app/src/main/
 ├── java/com/oniksnotes/
-│   ├── OniksApp.kt              # Application, создаёт AppContainer
-│   ├── MainActivity.kt          # Единственная Activity
+│   ├── OniksApp.kt
+│   ├── MainActivity.kt
 │   ├── data/
 │   │   ├── model/               # Note, NoteMeta, Collection, PluginManifest, InstalledPlugin
 │   │   ├── markdown/            # NoteSerializer, YamlFrontMatter
@@ -215,41 +214,33 @@ app/src/main/
 │   ├── domain/
 │   │   ├── links/               # LinksCalculator, KeywordExtractor, LinksCache
 │   │   ├── export/              # ExportManager, ImportManager
-│   │   ├── deletion/            # DeletionManager (Undo удаления)
+│   │   ├── deletion/            # DeletionManager
 │   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
 │   │                            # PluginApi, PluginStorage, PluginPermissionStore,
 │   │                            # EditorBridge, PluginDialogBridge,
 │   │                            # PermissionRequestBridge, PluginCommand
 │   ├── di/
-│   │   └── AppContainer.kt      # Ручной DI
+│   │   └── AppContainer.kt
 │   └── ui/
-│       ├── home/                # HomeFragment, QuickCreateDialogFragment, HomeCollectionsAdapter
+│       ├── home/                # HomeFragment, QuickCreateDialogFragment
 │       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
 │       ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
 │       ├── viewer/              # ViewNoteFragment
 │       ├── voice/               # VoiceInputFragment
-│       ├── graph/               # GraphView, ForceDirectedLayout, GraphFragment
+│       ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
 │       ├── library/             # LibraryClustering, LibraryFragment
-│       ├── collections/         # CollectionsFragment, CollectionsViewModel, CollectionsAdapter
-│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginsViewModel,
+│       ├── collections/         # CollectionsFragment, CollectionsViewModel
+│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
 │       │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
-│       │                        # PluginPermissionsFragment, PluginDialogFragment,
-│       │                        # PermissionRequestDialogFragment
+│       │                        # PluginDialogFragment, PermissionRequestDialogFragment
 │       ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
 │       ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
 │       ├── tile/                # QuickVoiceNoteTileService
 │       ├── widget/              # QuickNoteWidgetProvider
 │       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
 ├── res/
-│   ├── anim/                    # Анимации
-│   ├── drawable/                # Векторные иконки
-│   ├── layout/                  # XML-вёрстка
-│   ├── menu/                    # Меню тулбара и BottomNavigation
-│   ├── mipmap-*/                # Иконка приложения
-│   ├── navigation/              # nav_graph.xml
-│   ├── values/                  # colors, strings, themes, styles, arrays
-│   ├── values-night/            # Тёмная тема
-│   └── xml/                     # settings.xml, shortcuts.xml, widget info
+│   ├── anim/, drawable/, layout/, menu/, mipmap-*/, navigation/
+│   ├── values/, values-night/, xml/
 └── AndroidManifest.xml
 ```
 
