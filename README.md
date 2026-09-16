@@ -145,26 +145,33 @@ app/src/main/
 │   ├── OniksApp.kt              # Application, создаёт AppContainer
 │   ├── MainActivity.kt          # Единственная Activity
 │   ├── data/
-│   │   ├── model/               # Note, NoteMeta
+│   │   ├── model/               # Note, NoteMeta, Collection, CollectionWithCount
 │   │   ├── markdown/            # NoteSerializer, YamlFrontMatter
-│   │   ├── repository/          # NoteRepository, FileNoteRepository
+│   │   ├── repository/          # NoteRepository, FileNoteRepository,
+│   │   │                        # CollectionRepository, FileCollectionRepository
 │   │   ├── settings/            # SettingsRepository, ThemeMode, LanguageMode
 │   │   └── speech/              # SpeechRecognitionManager, SpeechState
 │   ├── domain/
 │   │   ├── links/               # LinksCalculator, KeywordExtractor, LinksCache
-│   │   └── export/              # ExportManager, ImportManager
+│   │   ├── export/              # ExportManager, ImportManager
+│   │   └── deletion/            # DeletionManager (Undo удаления)
 │   ├── di/
 │   │   └── AppContainer.kt      # Ручной DI
 │   └── ui/
-│       ├── home/                # HomeFragment, QuickCreateDialogFragment
-│       ├── notes/               # NotesFragment, NoteAdapter
-│       ├── editor/              # EditNoteFragment, WikiAutocomplete
-│       ├── viewer/              # ViewNoteFragment, MarkdownRenderer
+│       ├── home/                # HomeFragment, QuickCreateDialogFragment,
+│       │                        # HomeCollectionsAdapter
+│       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
+│       ├── editor/              # EditNoteFragment, WikiAutocompleteController,
+│       │                        # TagAutocompleteController
+│       ├── viewer/              # ViewNoteFragment
 │       ├── voice/               # VoiceInputFragment
-│       ├── graph/               # GraphView, ForceDirectedLayout
+│       ├── graph/               # GraphView, ForceDirectedLayout, GraphFragment
 │       ├── library/             # LibraryClustering, LibraryFragment
-│       ├── settings/            # SettingsFragment, AboutFragment
-│       └── common/              # AudioPermissionHelper
+│       ├── collections/         # CollectionsFragment, CollectionsViewModel,
+│       │                        # CollectionsAdapter
+│       ├── settings/            # SettingsFragment, AboutFragment,
+│       │                        # PrivacyPolicyDialogFragment
+│       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
 ├── res/
 │   ├── anim/                    # Анимации (появление карточек)
 │   ├── drawable/                # Свои векторные иконки
@@ -173,6 +180,7 @@ app/src/main/
 │   ├── mipmap-*/                # Иконка приложения
 │   ├── navigation/              # nav_graph.xml
 │   ├── values/                  # colors, strings, themes, styles, arrays
+│   ├── values-night/            # Тёмная тема: цвета синтаксиса и callouts
 │   └── xml/                     # settings.xml, shortcuts.xml, backup_rules
 └── AndroidManifest.xml
 ```
