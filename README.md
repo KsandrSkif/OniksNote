@@ -94,11 +94,11 @@
 | Язык | Kotlin |
 | UI | XML + View-система (без Compose) |
 | Архитектура | MVVM + Clean (`data/`, `domain/`, `ui/`) |
-| Хранение | Файлы `.md` с YAML frontmatter в `filesDir/notes/` |
+| Хранение | Файлы `.md` с YAML frontmatter + `collections.json` |
 | Асинхронность | Coroutines + Flow |
 | Навигация | Single-Activity + Navigation Component |
 | UI-компоненты | Material Components 3 |
-| Markdown | CommonMark + GFM extensions |
+| Markdown | CommonMark + GFM extensions + кастомный рендер |
 | Голос | `SpeechRecognizer` |
 | DI | Ручной `AppContainer` (без Hilt/Dagger) |
 
@@ -198,6 +198,7 @@ app/src/main/
 - created: 1700000000000
 - updated: 1700000000000
 - pinned: false
+- collection: 550e8400-e29b-41d4-a716-446655440000
 
 ---
 
