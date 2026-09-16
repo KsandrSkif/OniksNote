@@ -287,7 +287,7 @@ fun main() = println("Hello, Oniks")
 
 ### Коллекции
 
-`filesDir/collections.json`, TSV:
+```filesDir/collections.json```, TSV:
 
 ```
 <uuid>\t<имя>\t<порядок>\t<создано>
