@@ -399,7 +399,7 @@ phreakO7@mail.ru
 
 ---
 
-## Описание RU / [EN](#oniks-en)
+## Описание RU / [EN](#oniks)
 
 # Oniks-ru
 
