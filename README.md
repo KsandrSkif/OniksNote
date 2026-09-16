@@ -271,43 +271,123 @@ collection: 550e8400-e29b-41d4-a716-446655440000
 
 ---
 
-## Тело заметки в Markdown
+Тело заметки в Markdown
 
-- [ ] Чек-лист
-- [x] Выполненный пункт
+☐ Чек-лист
+☑ Выполненный пункт
 
-> [!tip] Совет
-> Callouts тоже поддерживаются.
+[!tip] Совет
+Callouts тоже поддерживаются.
 
 ```kotlin
 fun main() = println("Hello, Oniks")
 ```
 
-Заголовок хранится внутри YAML, а не в имени файла. Коллекция — необязательное поле collection.
+```
 
-Коллекции
+### Коллекции
 
-Все коллекции лежат в filesDir/collections.json — одна коллекция на строку в TSV-формате:
+`filesDir/collections.json`, TSV:
 
 ```
 <uuid>\t<имя>\t<порядок>\t<создано>
 ```
 
-При удалении коллекции заметки не удаляются — они становятся «Без коллекции».
+### Плагины
+
+- Реестр: `filesDir/installed_plugins.json`
+- Содержимое: `filesDir/plugins/<id>/`
+- Разрешения: `filesDir/plugins/<id>/data/permissions.json`
+- Локальное хранилище: `filesDir/plugins/<id>/data/storage.json`
 
 ---
 
-Markdown-поддержка
+## Плагины
 
-Оникс рендерит заметки через CommonMark с GFM-расширениями и кастомным рендером для:
+### Формат
 
-· callouts Obsidian — > [!note] и др.;
-· подсветки ==text==, работающей вокруг любого контента;
-· вложенных чек-листов с отступами и кликабельностью;
-· изображений (без загрузки из сети — local-first);
-· автоссылок.
+`.zip`-архив с плоской структурой:
 
-Блоки кода поддерживают подсветку синтаксиса для Kotlin, Java, JSON, SQL, Bash, Python, JavaScript, XML, Markdown и Excel.
+```
+my-plugin.zip
+├── manifest.json     (обязательно)
+├── main.js           (обязательно)
+├── icon.png          (опционально)
+└── ...               (любые дополнительные файлы)
+```
+
+### Манифест
+
+```json
+{
+  "id": "com.example.myplugin",
+  "name": "Мой плагин",
+  "version": "1.0.0",
+  "author": "Иван",
+  "description": "Краткое описание.",
+  "apiVersion": 1,
+  "entry": "main.js",
+  "icon": "icon.png",
+  "permissions": ["commands", "read_notes"]
+}
+```
+
+### Пример плагина
+
+**manifest.json:**
+```json
+{
+  "id": "com.example.date",
+  "name": "Вставить дату",
+  "version": "1.0.0",
+  "author": "Иван",
+  "apiVersion": 1,
+  "entry": "main.js",
+  "permissions": ["commands"]
+}
+```
+
+**main.js:**
+```javascript
+oniks.commands.register({
+    id: "insert-date",
+    title: "Вставить дату",
+    handler: function () {
+        var d = new Date();
+        var day = ("0" + d.getDate()).slice(-2);
+        var month = ("0" + (d.getMonth() + 1)).slice(-2);
+        oniks.editor.insertText(day + "." + month + "." + d.getFullYear());
+    }
+});
+```
+
+### Разрешения
+
+| Разрешение | Что даёт |
+|---|---|
+| `read_notes` | Чтение заметок |
+| `write_notes` | Изменение заметок (диалог подтверждения) |
+| `read_settings` | Чтение настроек (зарезервировано) |
+| `ui_panel` | Дополнительные панели (зарезервировано) |
+| `ui_dialog` | Показ диалогов |
+| `render_custom` | Препроцессор Markdown |
+| `commands` | Регистрация команд |
+| `graph_style` | Стилизация графа |
+
+### Ограничения
+
+- **JavaScript ES5.** Не поддерживаются: `let`, `const`, стрелочные функции, template literals, `class`, `import`/`export`, spread, destructuring.
+- Нет доступа к Java-классам, файловой системе, сети.
+- Один поток на плагин.
+
+### Что может плагин
+
+- Добавлять команды в меню редактора.
+- Вставлять/менять текст в редакторе.
+- Создавать, читать, обновлять, удалять заметки.
+- Показывать диалоги.
+- Преобразовывать текст заметки перед рендером.
+- Менять цвет, размер, обводку узлов и рёбер графа, подписи.
 
 ---
 
