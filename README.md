@@ -1,5 +1,406 @@
-## Описание (RU)
+## Description (EN)
+
+# Oniks
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=plastic&logo=android&logoColor=white" alt="Android">
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=plastic&logo=kotlin&logoColor=white" alt="Kotlin">
+  <img src="https://img.shields.io/badge/minSdk-26-1976D2?style=plastic" alt="minSdk 26">
+  <img src="https://img.shields.io/badge/targetSdk-34-1976D2?style=plastic" alt="targetSdk 34">
+  <img src="https://img.shields.io/badge/Material_3-757575?style=plastic" alt="Material 3">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
+  <img src="https://img.shields.io/badge/Version-1.21-F57C00?style=plastic" alt="Version 1.21">
+  <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
+  <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
+</p>
+
+**Voice notes with local storage, Markdown rendering, a knowledge graph, and a plugin system.**
+
+Oniks is an Android note-taking app inspired by Obsidian. Everything is stored locally on your device — no cloud, no internet. It supports voice and keyboard input, extended Markdown, automatic links between notes, collections, a knowledge graph, and plugins written in JavaScript.
+
 ---
+
+## Features
+
+### Notes
+
+- **Markdown** — extended renderer, close to Obsidian:
+  - ATX headings (`# H1` … `###### H6`) and Setext headings (`===`, `---`)
+  - bold, italic, strikethrough, inline code
+  - highlight `==text==` — works around any content
+  - underline via `<u>text</u>`
+  - superscript `x^2^`
+  - links: regular `[text](url)`, auto-links, wiki-links `[[Title]]`, reference links `[text][ref]`
+  - images — shown as `🖼 alt (url)` (no network loading)
+  - bulleted, numbered, and nested lists
+  - checklists `- [ ]` / `- [x]` — interactive, clickable, with nesting
+  - blockquotes, including multi-paragraph
+  - HR — three dots `• • •`
+  - code blocks with 10 languages of syntax highlighting
+  - GFM tables
+  - definition lists
+  - collapsible blocks `<details><summary>`
+  - **Obsidian Callouts** — `> [!note]`, `> [!tip]`, `> [!warning]`, `> [!important]`, `> [!caution]` + aliases
+- **Code blocks** — language label, line numbers, syntax highlighting, copy button. Kotlin, Java, JSON, SQL, Bash, Python, JavaScript, XML, Markdown, Excel.
+- **Wiki-links** — clickable, navigate to another note or create it.
+- **Autocomplete** for wiki-links and tags.
+- **Wiki-link highlighting in the editor**.
+- **Collections** — manual note groups.
+- **Multi-select** — long-press to select multiple notes.
+- **Undo delete** — countdown Snackbar with circular progress.
+- **Search** — by title, body, tags. Match highlighting and smart preview.
+- **Sorting** — by date, alphabet, or link count.
+- **Link counter** on each card.
+- **Markdown guide** — built-in screen with all elements.
+
+### Plugins
+
+**Extending functionality via JavaScript.**
+
+- **Install from `.zip`** — manifest + code + optional icon.
+- **Runtime** — Rhino JS (ES5), isolated thread per plugin.
+- **`oniks` API**:
+  - `oniks.log` — logging
+  - `oniks.storage` — local JSON storage
+  - `oniks.commands` — commands in the editor menu
+  - `oniks.editor` — work with the active editor
+  - `oniks.notes` — notes (read/write/search)
+  - `oniks.dialog` — `alert` / `confirm`
+  - `oniks.renderer` — Markdown preprocessor
+  - `oniks.graph` — graph styling (`nodeStyler`, `edgeStyler`, `labelStyler`)
+- **Permissions** — 8 in total, including `graph_style`. Confirmation dialog for `write_notes`, management screen with revocation.
+- **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
+- **Built-in guide** — all manifest fields, API, permissions, limitations, example.
+
+### Voice
+
+- **Speech recognition** via `SpeechRecognizer`
+- **Live transcript** — text appears as you speak
+- **Insert at cursor position** — voice doesn't overwrite existing text
+- **11 languages** to choose from + system default
+- **Auto-start** — from the FAB, App Shortcut, or Quick Settings Tile, voice input starts immediately
+
+### Knowledge graph
+
+- **Custom force-directed algorithm** — separates disconnected components, regions proportional to size
+- **Obsidian-style visuals**:
+  - edges — thin Bezier curves with smooth bend
+  - nodes — semi-transparent fill + background-colored outline
+  - labels hidden on zoom-out (declutter)
+  - tap on a node — highlights the node and its neighbors, the selected node's edges become colored, everything else fades
+  - second tap — open the note
+- **Filters** — by title and tags
+- **Zoom, pan, double-tap** to reset scale
+- **Cascade animation** — nodes appear by BFS levels from the focus
+- **Node color** — based on the first tag
+
+### Library
+
+- **Automatic clustering** — by tags and keywords
+- **Expandable sections** — with renaming and merging of topics
+- **Detach** — remove a note from a topic without deleting its tag
+
+### Home and quick scenarios
+
+- **Collections section** — horizontal row of folder icons. Tap → notes in that collection.
+- **Recent notes** — up to N latest (N configurable: 3 / 5 / 10).
+- **FAB "quick mode"** — overlay with "Voice" / "Text" choice.
+- **App Shortcuts** — long-press the icon: "New voice note" / "New note".
+- **Home screen widget** — two buttons: voice and text.
+- **Quick Settings Tile** — "Voice note" in the quick settings panel.
+- **Search** — from Home in one tap, with autofocus.
+
+### Settings
+
+- **Theme** — system / light / dark
+- **App language** — system / Russian / English
+- **Speech recognition language**
+- **Autosave** — with an "Exit without saving?" dialog
+- **Notes on Home** — 3 / 5 / 10
+- **Collections** — management screen
+- **Plugins** — management screen, permissions, guide
+- **Export** — all notes and collections to ZIP
+- **Import** — from `.md` or `.zip` (with collection restoration and link normalization)
+- **About** — version (dynamically from the manifest), author, license, privacy policy
+
+### Appearance
+
+- **Material 3** — `Theme.Material3.DayNight`, all dialogs with 28dp corner radius
+- **Dynamic Colors** on Android 12+ — colors adapt to wallpapers
+- **Dark theme** — all screens, including code blocks (adaptive syntax highlighting), graph, callouts
+- **Edge-to-edge** — content respects system bars
+- **Splash Screen** — via `core-splashscreen`
+- **Card animations** — cascade appearance when the list loads
+- **Bold colored toolbar titles** in icon color
+- **Countdown Snackbar** for Undo with circular progress
+
+---
+
+## Screenshots
+
+| Home | Notes | Viewer |
+|---|---|---|
+|![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg)|![Notes](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg)|![Viewer](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
+
+| Graph | Library | Settings |
+|---|---|---|
+|![Graph](https://github.com/KsandrSkif/OniksNote/releases/download/V1/6.jpg)|![Library](https://github.com/KsandrSkif/OniksNote/releases/download/V1/7.jpg)|![Settings](https://github.com/KsandrSkif/OniksNote/releases/download/V1/5.jpg)|
+
+---
+
+## Technologies
+
+| Component | Technology |
+|---|---|
+| Language | Kotlin |
+| UI | XML + View system (no Compose) |
+| Architecture | MVVM + Clean (`data/`, `domain/`, `ui/`) |
+| Storage | `.md` files with YAML frontmatter + `collections.json` + `installed_plugins.json` |
+| Async | Coroutines + Flow |
+| Navigation | Single-Activity + Navigation Component |
+| UI components | Material Components 3 |
+| Markdown | CommonMark + GFM extensions + custom renderer |
+| Voice | `SpeechRecognizer` |
+| Plugins | Rhino JavaScript Engine (ES5) |
+| DI | Manual `AppContainer` (no Hilt/Dagger) |
+
+### Library stack
+
+```
+androidx.core:core-ktx:1.13.1
+androidx.appcompat:appcompat:1.7.0
+com.google.android.material:material:1.12.0
+androidx.constraintlayout:constraintlayout:2.1.4
+androidx.activity:activity-ktx:1.9.3
+androidx.fragment:fragment-ktx:1.8.5
+androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7
+androidx.lifecycle:lifecycle-runtime-ktx:2.8.7
+androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7
+androidx.navigation:navigation-fragment-ktx:2.8.4
+androidx.navigation:navigation-ui-ktx:2.8.4
+org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0
+org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0
+androidx.recyclerview:recyclerview:1.3.2
+androidx.preference:preference-ktx:1.2.1
+androidx.core:core-splashscreen:1.0.1
+org.commonmark:commonmark:0.22.0
+org.commonmark:commonmark-ext-gfm-strikethrough:0.22.0
+org.commonmark:commonmark-ext-gfm-tables:0.22.0
+org.mozilla:rhino:1.7.14
+```
+
+---
+
+## Requirements
+
+- Android 8.0+ (API 26)
+- `RECORD_AUDIO` permission — for voice input
+- Device with `SpeechRecognizer` — for voice (usually Google services)
+
+---
+
+## Project structure
+
+```
+app/src/main/
+├── java/com/oniksnotes/
+│   ├── OniksApp.kt
+│   ├── MainActivity.kt
+│   ├── data/
+│   │   ├── model/               # Note, NoteMeta, Collection, PluginManifest, InstalledPlugin
+│   │   ├── markdown/            # NoteSerializer, YamlFrontMatter
+│   │   ├── repository/          # NoteRepository, CollectionRepository, PluginRepository
+│   │   ├── settings/            # SettingsRepository, ThemeMode, LanguageMode, AppLanguage
+│   │   └── speech/              # SpeechRecognitionManager, SpeechState
+│   ├── domain/
+│   │   ├── links/               # LinksCalculator, KeywordExtractor, LinksCache
+│   │   ├── export/              # ExportManager, ImportManager
+│   │   ├── deletion/            # DeletionManager
+│   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
+│   │                            # PluginApi, PluginStorage, PluginPermissionStore,
+│   │                            # EditorBridge, PluginDialogBridge,
+│   │                            # PermissionRequestBridge, PluginCommand
+│   ├── di/
+│   │   └── AppContainer.kt
+│   └── ui/
+│       ├── home/                # HomeFragment, QuickCreateDialogFragment
+│       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
+│       ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
+│       ├── viewer/              # ViewNoteFragment
+│       ├── voice/               # VoiceInputFragment
+│       ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
+│       ├── library/             # LibraryClustering, LibraryFragment
+│       ├── collections/         # CollectionsFragment, CollectionsViewModel
+│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
+│       │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
+│       │                        # PluginDialogFragment, PermissionRequestDialogFragment
+│       ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
+│       ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
+│       ├── tile/                # QuickVoiceNoteTileService
+│       ├── widget/              # QuickNoteWidgetProvider
+│       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
+├── res/
+│   ├── anim/, drawable/, layout/, menu/, mipmap-*/, navigation/
+│   ├── values/, values-night/, values-en/, xml/
+└── AndroidManifest.xml
+```
+
+---
+
+## Storage format
+
+Each note is a `<uuid>.md` file in `filesDir/notes/` with YAML frontmatter:
+
+```yaml
+title: Note title
+tags: [work, ideas]
+created: 1700000000000
+updated: 1700000000000
+pinned: false
+collection: 550e8400-e29b-41d4-a716-446655440000
+```
+
+---
+
+Note body in Markdown
+
+☐ Checklist item
+☑ Completed item
+
+[!tip] Tip
+Callouts are supported too.
+
+```kotlin
+fun main() = println("Hello, Oniks")
+```
+
+### Collections
+
+`filesDir/collections.json`, TSV:
+
+```
+<uuid>\t<name>\t<order>\t<created>
+```
+
+### Plugins
+
+- Registry: `filesDir/installed_plugins.json`
+- Content: `filesDir/plugins/<id>/`
+- Permissions: `filesDir/plugins/<id>/data/permissions.json`
+- Local storage: `filesDir/plugins/<id>/data/storage.json`
+
+---
+
+## Plugins
+
+### Format
+
+`.zip` archive with a flat structure:
+
+```
+my-plugin.zip
+├── manifest.json     (required)
+├── main.js           (required)
+├── icon.png          (optional)
+└── ...               (any additional files)
+```
+
+### Manifest
+
+```json
+{
+  "id": "com.example.myplugin",
+  "name": "My plugin",
+  "version": "1.0.0",
+  "author": "John Doe",
+  "description": "Short description.",
+  "apiVersion": 1,
+  "entry": "main.js",
+  "icon": "icon.png",
+  "permissions": ["commands", "read_notes"]
+}
+```
+
+### Plugin example
+
+**manifest.json:**
+
+```json
+{
+  "id": "com.example.date",
+  "name": "Insert date",
+  "version": "1.0.0",
+  "author": "John Doe",
+  "apiVersion": 1,
+  "entry": "main.js",
+  "permissions": ["commands"]
+}
+```
+
+**main.js:**
+
+```javascript
+oniks.commands.register({
+    id: "insert-date",
+    title: "Insert date",
+    handler: function () {
+        var d = new Date();
+        var day = ("0" + d.getDate()).slice(-2);
+        var month = ("0" + (d.getMonth() + 1)).slice(-2);
+        oniks.editor.insertText(day + "." + month + "." + d.getFullYear());
+    }
+});
+```
+
+### Permissions
+
+| Permission | What it grants |
+|---|---|
+| `read_notes` | Read notes |
+| `write_notes` | Modify notes (confirmation dialog) |
+| `read_settings` | Read settings (reserved) |
+| `ui_panel` | Additional panels (reserved) |
+| `ui_dialog` | Show dialogs |
+| `render_custom` | Markdown preprocessor |
+| `commands` | Register commands |
+| `graph_style` | Graph styling |
+
+### Limitations
+
+- **JavaScript ES5.** Not supported: `let`, `const`, arrow functions, template literals, `class`, `import`/`export`, spread, destructuring.
+- No access to Java classes, file system, or network.
+- One thread per plugin.
+
+### What a plugin can do
+
+- Add commands to the editor menu.
+- Insert or modify text in the editor.
+- Create, read, update, delete notes.
+- Show dialogs.
+- Preprocess note text before rendering.
+- Change color, size, and outline of graph nodes and edges, and labels.
+
+---
+
+## License
+
+MIT License. Full text in the [LICENSE](LICENSE) file.
+
+---
+
+### Author
+**Mikihisa**
+
+### Contact: 
+phreakO7@mail.ru
+
+---
+
+## Описание (RU)
+
 # Оникс
 
 <p align="center">
@@ -12,7 +413,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.20-F57C00?style=plastic" alt="Version 1.20">
+  <img src="https://img.shields.io/badge/Version-1.21-F57C00?style=plastic" alt="Version 1.21">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
