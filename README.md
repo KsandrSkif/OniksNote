@@ -335,6 +335,7 @@ my-plugin.zip
 ### Пример плагина
 
 **manifest.json:**
+
 ```json
 {
   "id": "com.example.date",
