@@ -1,4 +1,4 @@
-## Description EN / [RU](#оникс)
+## Description EN / [RU](#oniks-ru)
 
 # Oniks
 
@@ -399,9 +399,9 @@ phreakO7@mail.ru
 
 ---
 
-## Описание RU / [EN](#oniks)
+## Описание RU / [EN](#oniks-en)
 
-# Оникс
+# Oniks-ru
 
 <p align="center">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=plastic&logo=android&logoColor=white" alt="Android">
