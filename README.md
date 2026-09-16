@@ -227,14 +227,14 @@ app/src/main/
 
 Каждая заметка — файл `<uuid>.md` в `filesDir/notes/` с YAML frontmatter:
 
----
+
 ```yaml
-- title: Заголовок заметки
-- tags: [работа, идеи]
-- created: 1700000000000
-- updated: 1700000000000
-- pinned: false
-- collection: 550e8400-e29b-41d4-a716-446655440000
+title: Заголовок заметки
+tags: [работа, идеи]
+created: 1700000000000
+updated: 1700000000000
+pinned: false
+collection: 550e8400-e29b-41d4-a716-446655440000
 ```
 
 ---
