@@ -1,4 +1,4 @@
-## Description (EN)
+## Description (EN) [LICENSE](RU)
 
 # Oniks
 
