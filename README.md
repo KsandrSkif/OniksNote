@@ -390,6 +390,12 @@ oniks.commands.register({
 
 ---
 
+## Лицензия
+
+MIT License. Полный текст — в файле [LICENSE](LICENSE).
+
+---
+
 ### Автор
 **Mikihisa**
 
