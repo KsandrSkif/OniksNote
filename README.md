@@ -1,4 +1,4 @@
-## Description (EN) [RU](#RU)
+## Description (EN) [RU](?plain=402)
 
 # Oniks
 
