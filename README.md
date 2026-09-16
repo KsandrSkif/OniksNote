@@ -10,14 +10,14 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.12-F57C00?style=plastic" alt="Version 1.12">
+  <img src="https://img.shields.io/badge/Version-1.19-F57C00?style=plastic" alt="Version 1.19">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
 
-**Голосовые заметки с локальным хранением, Markdown-рендером и графом связей.**
+**Голосовые заметки с локальным хранением, Markdown-рендером, графом связей и системой плагинов.**
 
-Оникс — Android-приложение для ведения заметок, вдохновлённое Obsidian. Всё хранится локально на устройстве, без облака и без интернета. Поддерживает ввод голосом и с клавиатуры, Markdown с подсветкой кода, автоматические связи между заметками и граф знаний.
+Оникс — Android-приложение для ведения заметок, вдохновлённое Obsidian. Всё хранится локально на устройстве, без облака и без интернета. Поддерживает ввод голосом и с клавиатуры, расширенный Markdown, автоматические связи между заметками, коллекции, граф знаний и плагины на JavaScript.
 
 ---
 
@@ -28,8 +28,9 @@
 - **Markdown** — расширенный рендер, близкий к Obsidian:
   - заголовки ATX (`# H1` … `###### H6`) и Setext (`===`, `---`)
   - жирный, курсив, зачёркнутый, инлайн-код
-  - подсветка `==text==` — работает вокруг любого контента
+  - подсветка `==text==` — работает вокруг любого контента, включая код и ссылки
   - подчёркнутый через `<u>text</u>`
+  - верхний индекс `x^2^`
   - ссылки: обычные `[text](url)`, автоссылки `https://...`, wiki-ссылки `[[Заголовок]]`, определения `[text][ref]`
   - изображения — как `🖼 alt (url)` (без загрузки из сети)
   - маркированные, нумерованные и вложенные списки
@@ -38,18 +39,38 @@
   - HR — три точки `• • •`
   - блоки кода с 10 языками подсветки
   - таблицы GFM
+  - определения терминов (`Термин` + `: Определение`)
+  - сворачиваемые блоки `<details><summary>`
   - **Callouts Obsidian** — `> [!note]`, `> [!tip]`, `> [!warning]`, `> [!important]`, `> [!caution]` + алиасы (`info`, `danger`, `success`)
 - **Блоки кода** — с подписью языка, номерами строк, подсветкой синтаксиса и кнопкой копирования. Поддерживаются Kotlin, Java, JSON, SQL, Bash, Python, JavaScript, XML, Markdown, Excel.
 - **Wiki-ссылки** `[[Заголовок]]` — кликабельные, ведут на другую заметку или создают её.
-- **Автодополнение wiki-ссылок** в редакторе — по мере ввода.
+- **Автодополнение wiki-ссылок** и **автодополнение тегов** — по мере ввода.
 - **Подсветка wiki-ссылок в редакторе** — существующие цветом `colorPrimary`, несуществующие серым.
-- **Теги** — с автодополнением при вводе, группировкой, фильтрацией.
 - **Коллекции** — ручные группы заметок. Заметка в одной коллекции или ни в одной.
-- **Мультивыбор** — долгий тап для выбора нескольких заметок.
+- **Мультивыбор** — долгий тап для выбора нескольких заметок и удаления пачкой.
 - **Undo удаления** — снэкбар с обратным отсчётом и круговым прогрессом. Свайп, мультивыбор, меню просмотра — все защищены.
 - **Поиск** — по заголовку, телу и тегам. Подсветка совпадений в карточках, «умное» превью вокруг найденного фрагмента.
 - **Сортировка** — по дате, алфавиту или числу связей.
 - **Счётчик связей** на карточке — видно «узловые» заметки.
+- **Справка по Markdown** — встроенный экран со всеми элементами и примерами.
+
+### Плагины
+
+**Расширение функциональности через JavaScript.**
+
+- **Установка из `.zip`** — манифест + код + опционально иконка.
+- **Runtime** — Rhino JS (ES5), изолированный поток на плагин.
+- **API `oniks`**:
+  - `oniks.log` — логирование
+  - `oniks.storage` — локальное JSON-хранилище плагина
+  - `oniks.commands` — регистрация команд в меню редактора
+  - `oniks.editor` — работа с активным редактором (вставка, обёртка выделения)
+  - `oniks.notes` — доступ к заметкам (чтение, создание, изменение, удаление, поиск)
+  - `oniks.dialog` — показ диалогов `alert` / `confirm`
+  - `oniks.renderer` — препроцессор Markdown перед рендером
+- **Разрешения** — 7 штук: `read_notes`, `write_notes`, `read_settings`, `ui_panel`, `ui_dialog`, `render_custom`, `commands`. Диалог подтверждения при первом использовании чувствительных разрешений. Отдельный экран управления с возможностью отзыва.
+- **Иконки** — из файла `icon.png` в архиве.
+- **Встроенная инструкция** — экран со всеми полями манифеста, API, разрешениями, ограничениями и примером.
 
 ### Голос
 
@@ -57,7 +78,7 @@
 - **Live-транскрипт** — текст появляется по мере речи
 - **Вставка в позицию курсора** — голос не затирает существующий текст
 - **11 языков** на выбор + системный
-- **Автозапуск** — из FAB или App Shortcut голосовой ввод стартует сразу
+- **Автозапуск** — из FAB, App Shortcut или Quick Settings Tile голосовой ввод стартует сразу
 
 ### Граф знаний
 
@@ -71,7 +92,7 @@
 - **Фильтры** — по заголовку и тегам
 - **Zoom, pan, double-tap** для сброса масштаба
 - **Каскадная анимация** — узлы появляются по BFS-уровням от фокуса
-- **Цвет узла** — по первому тегу (детерминированный маппинг)
+- **Цвет узла** — по первому тегу
 
 ### Библиотека
 
@@ -85,6 +106,8 @@
 - **Последние заметки** — до N свежих (N настраивается: 3 / 5 / 10).
 - **FAB «скоростной режим»** — оверлей с выбором «Голос» / «Текст».
 - **App Shortcuts** — долгий тап по иконке: «Новая голосовая заметка» / «Новая заметка».
+- **Виджет на домашнем экране Android** — две кнопки: голос и текст.
+- **Quick Settings Tile** — «Голосовая заметка» в шторке быстрых настроек.
 - **Поиск** — из Home в один тап, с автофокусом.
 
 ### Настройки
@@ -94,6 +117,7 @@
 - **Автосохранение** — с диалогом «Выйти без сохранения?»
 - **Заметок на Главной** — 3 / 5 / 10
 - **Коллекции** — экран управления
+- **Плагины** — экран управления, разрешения, инструкция
 - **Экспорт** — все заметки и коллекции в ZIP
 - **Импорт** — из `.md` или `.zip` (с восстановлением коллекций и нормализацией ссылок)
 - **О приложении** — версия (динамически из манифеста), автор, лицензия, политика конфиденциальности
@@ -130,12 +154,13 @@
 | Язык | Kotlin |
 | UI | XML + View-система (без Compose) |
 | Архитектура | MVVM + Clean (`data/`, `domain/`, `ui/`) |
-| Хранение | Файлы `.md` с YAML frontmatter + `collections.json` |
+| Хранение | Файлы `.md` с YAML frontmatter + `collections.json` + `installed_plugins.json` |
 | Асинхронность | Coroutines + Flow |
 | Навигация | Single-Activity + Navigation Component |
 | UI-компоненты | Material Components 3 |
 | Markdown | CommonMark + GFM extensions + кастомный рендер |
 | Голос | `SpeechRecognizer` |
+| Плагины | Rhino JavaScript Engine (ES5) |
 | DI | Ручной `AppContainer` (без Hilt/Dagger) |
 
 ### Стек библиотек
@@ -160,6 +185,7 @@ androidx.core:core-splashscreen:1.0.1
 org.commonmark:commonmark:0.22.0
 org.commonmark:commonmark-ext-gfm-strikethrough:0.22.0
 org.commonmark:commonmark-ext-gfm-tables:0.22.0
+org.mozilla:rhino:1.7.14
 ```
 
 ---
@@ -181,43 +207,49 @@ app/src/main/
 │   ├── OniksApp.kt              # Application, создаёт AppContainer
 │   ├── MainActivity.kt          # Единственная Activity
 │   ├── data/
-│   │   ├── model/               # Note, NoteMeta, Collection, CollectionWithCount
+│   │   ├── model/               # Note, NoteMeta, Collection, PluginManifest, InstalledPlugin
 │   │   ├── markdown/            # NoteSerializer, YamlFrontMatter
-│   │   ├── repository/          # NoteRepository, FileNoteRepository,
-│   │   │                        # CollectionRepository, FileCollectionRepository
+│   │   ├── repository/          # NoteRepository, CollectionRepository, PluginRepository
 │   │   ├── settings/            # SettingsRepository, ThemeMode, LanguageMode
 │   │   └── speech/              # SpeechRecognitionManager, SpeechState
 │   ├── domain/
 │   │   ├── links/               # LinksCalculator, KeywordExtractor, LinksCache
 │   │   ├── export/              # ExportManager, ImportManager
-│   │   └── deletion/            # DeletionManager (Undo удаления)
+│   │   ├── deletion/            # DeletionManager (Undo удаления)
+│   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
+│   │                            # PluginApi, PluginStorage, PluginPermissionStore,
+│   │                            # EditorBridge, PluginDialogBridge,
+│   │                            # PermissionRequestBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt      # Ручной DI
 │   └── ui/
-│       ├── home/                # HomeFragment, QuickCreateDialogFragment,
-│       │                        # HomeCollectionsAdapter
+│       ├── home/                # HomeFragment, QuickCreateDialogFragment, HomeCollectionsAdapter
 │       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
-│       ├── editor/              # EditNoteFragment, WikiAutocompleteController,
-│       │                        # TagAutocompleteController
+│       ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
 │       ├── viewer/              # ViewNoteFragment
 │       ├── voice/               # VoiceInputFragment
 │       ├── graph/               # GraphView, ForceDirectedLayout, GraphFragment
 │       ├── library/             # LibraryClustering, LibraryFragment
-│       ├── collections/         # CollectionsFragment, CollectionsViewModel,
-│       │                        # CollectionsAdapter
-│       ├── settings/            # SettingsFragment, AboutFragment,
-│       │                        # PrivacyPolicyDialogFragment
+│       ├── collections/         # CollectionsFragment, CollectionsViewModel, CollectionsAdapter
+│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginsViewModel,
+│       │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
+│       │                        # PluginPermissionsFragment, PluginDialogFragment,
+│       │                        # PermissionRequestDialogFragment
+│       ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
+│       ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
+│       ├── tile/                # QuickVoiceNoteTileService
+│       ├── widget/              # QuickNoteWidgetProvider
 │       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
 ├── res/
-│   ├── anim/                    # Анимации (появление карточек)
-│   ├── drawable/                # Свои векторные иконки
-│   ├── layout/                  # XML-вёрстка экранов и элементов
+│   ├── anim/                    # Анимации
+│   ├── drawable/                # Векторные иконки
+│   ├── layout/                  # XML-вёрстка
 │   ├── menu/                    # Меню тулбара и BottomNavigation
 │   ├── mipmap-*/                # Иконка приложения
 │   ├── navigation/              # nav_graph.xml
 │   ├── values/                  # colors, strings, themes, styles, arrays
-│   ├── values-night/            # Тёмная тема: цвета синтаксиса и callouts
-│   └── xml/                     # settings.xml, shortcuts.xml, backup_rules
+│   ├── values-night/            # Тёмная тема
+│   └── xml/                     # settings.xml, shortcuts.xml, widget info
 └── AndroidManifest.xml
 ```
 
