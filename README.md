@@ -1,4 +1,4 @@
-## Description(EN) [RU](#Описание(RU))
+## Description (EN) — [RU](#описаниеru)
 
 # Oniks
 
