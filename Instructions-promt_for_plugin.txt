@@ -362,6 +362,7 @@ JavaScript — только ES5
 · ❌ String.prototype.matchAll.
 · ❌ Promise, async, await.
 · ❌ Symbol.
+· ❌ try / catch — Rhino на Android падает при создании catch-scope (javax.lang.model.SourceVersion). Проверяй типы через typeof и явные условия.
 
 Работает (используй):
 
