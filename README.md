@@ -80,7 +80,7 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 - **Permissions** — 12 in total. Confirmation dialog for `write_notes`, management screen with revocation.
 - **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
 - **Built-in guide** — all manifest fields, API, permissions, limitations, example.
-- **Full API reference** — see [Plugins-API.md](Plugins-API.md).
+- **Full API reference** — see [Plugins-API](Plugins_API.md).
 
 ### Voice
 
