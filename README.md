@@ -62,12 +62,12 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 - **Install from `.zip`** — manifest + code + optional icon.
 - **Runtime** — Rhino JS (ES5), isolated thread per plugin.
-- **`oniks` API — 14 namespaces, 56 methods:**
+- **`oniks` API — 15 namespaces, 60 methods:**
   - `oniks.log` — logging
   - `oniks.storage` — local JSON storage
   - `oniks.commands` — commands in the editor menu
   - `oniks.editor` — work with the active editor (including `getNoteId`)
-  - `oniks.notes` — notes (read / write / search)
+  - `oniks.notes` — notes (read / write / search), including `getAllWithBody`, `getRecent`, `getPinned`
   - `oniks.dialog` — `alert` / `confirm`
   - `oniks.renderer` — Markdown preprocessor
   - `oniks.graph` — graph styling (`nodeStyler`, `edgeStyler`, `labelStyler`)
@@ -77,10 +77,11 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
   - `oniks.markdown` — Markdown parsing (no rendering)
   - `oniks.events` — subscribe to app events
   - `oniks.collections` — collections (create / rename / delete)
+  - `oniks.ui` — UI navigation (`openNote`)
 - **Permissions** — 12 in total. Confirmation dialog for `write_notes`, management screen with revocation.
 - **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
 - **Built-in guide** — all manifest fields, API, permissions, limitations, example.
-- **Full API reference** — see [Plugins-API](Plugins_API.md).
+- **Full API reference** — see [PLUGIN_API.md](PLUGIN_API.md).
 
 ### Voice
 
@@ -229,7 +230,7 @@ app/src/main/
 │   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
 │   │                            # PluginApi, PluginStorage, PluginPermissionStore,
 │   │                            # EditorBridge, PluginDialogBridge,
-│   │                            # PermissionRequestBridge, PluginCommand
+│   │                            # PermissionRequestBridge, UIBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   └── ui/
@@ -367,7 +368,7 @@ oniks.commands.register({
 | Permission | What it grants |
 |---|---|
 | `commands` | Register commands in the editor menu |
-| `read_notes` | Read notes (`getAll`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) |
+| `read_notes` | Read notes (11 methods: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Modify notes (`create`, `update`, `delete`) and collections (`create`, `rename`, `delete`). Confirmation dialog on first use. |
 | `read_settings` | Read app settings |
 | `ui_dialog` | Show dialogs (`alert`, `confirm`) |
@@ -382,6 +383,9 @@ oniks.commands.register({
 ### Limitations
 
 - **JavaScript ES5.** Not supported: `let`, `const`, arrow functions, template literals, `class`, `import`/`export`, spread, destructuring.
+- **No `try/catch`** — Rhino on Android crashes on catch-scope (`javax.lang.model.SourceVersion`). Check types via `typeof` and explicit conditions.
+- **No `.call()`, `.apply()`, `.bind()`** on `oniks.*` methods — they are Java wrappers. Call directly: `oniks.notes.getAll()`.
+- **Emoji outside BMP** (`✅`, `❌`) may not render in dialogs. Use ASCII markers: `[OK]`, `[FAIL]`.
 - No access to Java classes, file system, or network.
 - One thread per plugin.
 
@@ -399,6 +403,7 @@ oniks.commands.register({
 - Open the system "Share" dialog.
 - Parse Markdown (plain text, structure, wiki-links, tags, headings).
 - Subscribe to app events (note created / updated / deleted / opened, collection created / deleted, plugin startup / shutdown).
+- Open a note in the viewer via `oniks.ui.openNote(id)`.
 
 ---
 
@@ -474,19 +479,18 @@ phreakO7@mail.ru
 - **Счётчик связей** на карточке.
 - **Справка по Markdown** — встроенный экран со всеми элементами.
 
-
 ### Плагины
 
 **Расширение функциональности через JavaScript.**
 
 - **Установка из `.zip`** — манифест + код + опциональная иконка.
 - **Runtime** — Rhino JS (ES5), изолированный поток на плагин.
-- **API `oniks` — 14 namespace, 56 методов:**
+- **API `oniks` — 15 namespace, 60 методов:**
   - `oniks.log` — логирование
   - `oniks.storage` — локальное JSON-хранилище
   - `oniks.commands` — команды в меню редактора
   - `oniks.editor` — работа с активным редактором (включая `getNoteId`)
-  - `oniks.notes` — заметки (чтение / запись / поиск)
+  - `oniks.notes` — заметки (чтение / запись / поиск), включая `getAllWithBody`, `getRecent`, `getPinned`
   - `oniks.dialog` — `alert` / `confirm`
   - `oniks.renderer` — препроцессор Markdown
   - `oniks.graph` — стилизация графа (`nodeStyler`, `edgeStyler`, `labelStyler`)
@@ -496,10 +500,11 @@ phreakO7@mail.ru
   - `oniks.markdown` — парсинг Markdown (без рендеринга)
   - `oniks.events` — подписка на события приложения
   - `oniks.collections` — коллекции (создание / переименование / удаление)
+  - `oniks.ui` — UI-навигация (`openNote`)
 - **Разрешения** — 12. Диалог подтверждения для `write_notes`, экран управления с отзывом.
 - **Иконки** из `icon.png` в архиве — в списке, оверлее установки и оверлее деталей.
 - **Встроенная инструкция** — все поля манифеста, API, разрешения, ограничения, пример.
-- **Полный справочник API** — см. [Plugins-API](Plugins_API.md).
+- **Полный справочник API** — см. [PLUGIN_API.md](PLUGIN_API.md).
 
 ### Голос
 
@@ -638,7 +643,7 @@ app/src/main/
 │   │   ├── model/               # Note, NoteMeta, Collection, PluginManifest, InstalledPlugin
 │   │   ├── markdown/            # NoteSerializer, YamlFrontMatter
 │   │   ├── repository/          # NoteRepository, CollectionRepository, PluginRepository
-│   │   ├── settings/            # SettingsRepository, ThemeMode, LanguageMode
+│   │   ├── settings/            # SettingsRepository, ThemeMode, LanguageMode, AppLanguage
 │   │   └── speech/              # SpeechRecognitionManager, SpeechState
 │   ├── domain/
 │   │   ├── links/               # LinksCalculator, KeywordExtractor, LinksCache
@@ -647,7 +652,7 @@ app/src/main/
 │   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
 │   │                            # PluginApi, PluginStorage, PluginPermissionStore,
 │   │                            # EditorBridge, PluginDialogBridge,
-│   │                            # PermissionRequestBridge, PluginCommand
+│   │                            # PermissionRequestBridge, UIBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   └── ui/
@@ -669,7 +674,7 @@ app/src/main/
 │       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
 ├── res/
 │   ├── anim/, drawable/, layout/, menu/, mipmap-*/, navigation/
-│   ├── values/, values-night/, xml/
+│   ├── values/, values-night/, values-en/, xml/
 └── AndroidManifest.xml
 ```
 
@@ -678,7 +683,6 @@ app/src/main/
 ## Формат хранения
 
 Каждая заметка — файл `<uuid>.md` в `filesDir/notes/` с YAML frontmatter:
-
 
 ```yaml
 title: Заголовок заметки
@@ -785,7 +789,7 @@ oniks.commands.register({
 | Разрешение | Что даёт |
 |---|---|
 | `commands` | Регистрация команд в меню редактора |
-| `read_notes` | Чтение заметок (`getAll`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) |
+| `read_notes` | Чтение заметок (11 методов: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Изменение заметок (`create`, `update`, `delete`) и коллекций (`create`, `rename`, `delete`). Диалог подтверждения при первом использовании. |
 | `read_settings` | Чтение настроек приложения |
 | `ui_dialog` | Показ диалогов (`alert`, `confirm`) |
@@ -800,6 +804,9 @@ oniks.commands.register({
 ### Ограничения
 
 - **JavaScript ES5.** Не поддерживаются: `let`, `const`, стрелочные функции, template literals, `class`, `import`/`export`, spread, destructuring.
+- **Нет `try/catch`** — Rhino на Android падает при создании catch-scope (`javax.lang.model.SourceVersion`). Проверяйте типы через `typeof` и явные условия.
+- **Нет `.call()`, `.apply()`, `.bind()`** на методах `oniks.*` — это Java-обёртки. Вызывайте напрямую: `oniks.notes.getAll()`.
+- **Эмодзи вне BMP** (`✅`, `❌`) могут не отрисоваться в диалогах. Используйте ASCII: `[OK]`, `[FAIL]`.
 - Нет доступа к Java-классам, файловой системе, сети.
 - Один поток на плагин.
 
@@ -817,6 +824,7 @@ oniks.commands.register({
 - Открывать системный диалог «Поделиться».
 - Парсить Markdown (плоский текст, структура, wiki-ссылки, теги, заголовки).
 - Подписываться на события приложения (заметка создана / изменена / удалена / открыта, коллекция создана / удалена, запуск / остановка плагина).
+- Открывать заметку в просмотрщике через `oniks.ui.openNote(id)`.
 
 ---
 
