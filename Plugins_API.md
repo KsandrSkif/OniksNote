@@ -250,16 +250,17 @@ collectionDeleted Коллекция удалена id
 
 ---
 
-14. oniks.collections — работа с коллекциями
+## 14. `oniks.collections` — работа с коллекциями
 
-# Метод Аргументы Возвращает Разрешение
-55 oniks.collections.getAll — массив коллекций collections
-56 oniks.collections.getNotesCount id int collections
-57 oniks.collections.create name id collections + write_notes
-58 oniks.collections.rename id, newName true / false collections + write_notes
-59 oniks.collections.delete id true / false collections + write_notes
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 55 | `oniks.collections.getAll` | — | массив коллекций | `collections` |
+| 56 | `oniks.collections.getNotesCount` | `id` | `int` | `collections` |
+| 57 | `oniks.collections.create` | `name` | `id` | `collections` + `write_notes` |
+| 58 | `oniks.collections.rename` | `id, newName` | `true` / `false` | `collections` + `write_notes` |
+| 59 | `oniks.collections.delete` | `id` | `true` / `false` | `collections` + `write_notes` |
 
-Структура коллекции:
+**Структура коллекции:**
 
 ```yaml
 {
@@ -274,54 +275,57 @@ created: number
 
 ---
 
-15. oniks.ui — UI-навигация
+## 15. `oniks.ui` — UI-навигация
 
-# Метод Аргументы Возвращает Разрешение
-60 oniks.ui.openNote id true / false read_notes
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 60 | `oniks.ui.openNote` | `id` | `true` / `false` | `read_notes` |
 
-Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в onResume). Возвращает true, если навигация запущена.
+Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в `onResume`). Возвращает `true`, если навигация запущена.
 
-Не открывайте заметку внутри обработчика noteOpened — получится бесконечный цикл.
-
----
-
-Разрешения
-
-# Разрешение Что покрывает
-1 commands oniks.commands.register
-2 read_notes 11 методов oniks.notes (чтение) + oniks.ui.openNote
-3 write_notes 3 метода oniks.notes (запись) + oniks.collections.create/rename/delete (совместно с collections). Требует диалога подтверждения.
-4 read_settings 6 методов oniks.settings
-5 ui_dialog 2 метода oniks.dialog
-6 render_custom oniks.renderer.register
-7 graph_style oniks.graph.register
-8 clipboard 3 метода oniks.clipboard
-9 share oniks.share.send
-10 events 2 метода oniks.events + 8 событий
-11 collections 5 методов oniks.collections
-12 ui_panel Зарезервировано
+**Не открывайте заметку внутри обработчика `noteOpened`** — получится бесконечный цикл.
 
 ---
 
-Итого
+## Разрешения
 
-Namespace Методов Разрешение
-oniks.log 3 —
-oniks.storage 4 —
-oniks.commands 1 commands
-oniks.editor 11 —
-oniks.notes 14 read_notes / write_notes
-oniks.dialog 2 ui_dialog
-oniks.renderer 1 render_custom
-oniks.graph 1 graph_style
-oniks.settings 6 read_settings
-oniks.clipboard 3 clipboard
-oniks.share 1 share
-oniks.markdown 5 —
-oniks.events 2 events
-oniks.collections 5 collections + write_notes
-oniks.ui 1 read_notes
-Всего 60 12 разрешений
+| # | Разрешение | Что покрывает |
+|---|---|---|
+| 1 | `commands` | `oniks.commands.register` |
+| 2 | `read_notes` | 11 методов `oniks.notes` (чтение) + `oniks.ui.openNote` |
+| 3 | `write_notes` | 3 метода `oniks.notes` (запись) + `oniks.collections.create/rename/delete` (совместно с `collections`). Требует диалога подтверждения. |
+| 4 | `read_settings` | 6 методов `oniks.settings` |
+| 5 | `ui_dialog` | 2 метода `oniks.dialog` |
+| 6 | `render_custom` | `oniks.renderer.register` |
+| 7 | `graph_style` | `oniks.graph.register` |
+| 8 | `clipboard` | 3 метода `oniks.clipboard` |
+| 9 | `share` | `oniks.share.send` |
+| 10 | `events` | 2 метода `oniks.events` + 8 событий |
+| 11 | `collections` | 5 методов `oniks.collections` |
+| 12 | `ui_panel` | Зарезервировано |
+
+---
+
+## Итого
+
+| Namespace | Методов | Разрешение |
+|---|---|---|
+| `oniks.log` | 3 | — |
+| `oniks.storage` | 4 | — |
+| `oniks.commands` | 1 | `commands` |
+| `oniks.editor` | 11 | — |
+| `oniks.notes` | 14 | `read_notes` / `write_notes` |
+| `oniks.dialog` | 2 | `ui_dialog` |
+| `oniks.renderer` | 1 | `render_custom` |
+| `oniks.graph` | 1 | `graph_style` |
+| `oniks.settings` | 6 | `read_settings` |
+| `oniks.clipboard` | 3 | `clipboard` |
+| `oniks.share` | 1 | `share` |
+| `oniks.markdown` | 5 | — |
+| `oniks.events` | 2 | `events` |
+| `oniks.collections` | 5 | `collections` + `write_notes` |
+| `oniks.ui` | 1 | `read_notes` |
+| **Всего** | **60** | **12 разрешений** |
 
 ---
 
