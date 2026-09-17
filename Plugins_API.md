@@ -133,90 +133,98 @@ collectionId: string
 
 ---
 
-6. oniks.dialog — модальные диалоги
+## 6. `oniks.dialog` — модальные диалоги
 
-# Метод Аргументы Возвращает Разрешение
-34 oniks.dialog.alert message, [title] — ui_dialog
-35 oniks.dialog.confirm message, [title] true / false ui_dialog
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 34 | `oniks.dialog.alert` | `message, [title]` | — | `ui_dialog` |
+| 35 | `oniks.dialog.confirm` | `message, [title]` | `true` / `false` | `ui_dialog` |
 
-Вызовы блокируют поток плагина до ответа пользователя. Не используйте в цикле.
-
----
-
-7. oniks.renderer — препроцессор Markdown
-
-# Метод Аргументы Возвращает Разрешение
-36 oniks.renderer.register {id, process} — render_custom
-
-process(text) получает весь текст заметки перед рендером и возвращает изменённый текст. Порядок препроцессоров — порядок регистрации.
+Вызовы **блокируют** поток плагина до ответа пользователя. Не используйте в цикле.
 
 ---
 
-8. oniks.graph — стилизация графа
+## 7. `oniks.renderer` — препроцессор Markdown
 
-# Метод Аргументы Возвращает Разрешение
-37 oniks.graph.register {id, nodeStyler?, edgeStyler?, labelStyler?} — graph_style
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 36 | `oniks.renderer.register` | `{id, process}` | — | `render_custom` |
 
-Поля NodeStyle: color (hex), radiusMultiplier (float), borderColor (hex).
-
-Поля EdgeStyle: color (hex), widthMultiplier (float).
-
-Возврат null — не менять стандартный вид.
-
-Нюанс: степень узла (node.degree) зависит от размера графа. На маленьких базах (10–20 заметок) degree >= 3 может никогда не сработать. Начинайте с degree >= 1, повышайте порог по мере роста базы.
+`process(text)` получает весь текст заметки перед рендером и возвращает изменённый текст. Порядок препроцессоров — порядок регистрации.
 
 ---
 
-9. oniks.settings — чтение настроек
+## 8. `oniks.graph` — стилизация графа
 
-# Метод Аргументы Возвращает Разрешение
-38 oniks.settings.getTheme — "system" / "light" / "dark" read_settings
-39 oniks.settings.getLanguage — "system" / "ru" / "en" и т.д. read_settings
-40 oniks.settings.getAppLanguage — "system" / "ru" / "en" read_settings
-41 oniks.settings.getSpeechLanguage — BCP-47 тег или "" read_settings
-42 oniks.settings.isAutoSaveEnabled — true / false read_settings
-43 oniks.settings.getHomeRecentLimit — 3 / 5 / 10 read_settings
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 37 | `oniks.graph.register` | `{id, nodeStyler?, edgeStyler?, labelStyler?}` | — | `graph_style` |
 
----
+**Поля NodeStyle:** `color` (hex), `radiusMultiplier` (float), `borderColor` (hex).
 
-10. oniks.clipboard — буфер обмена
+**Поля EdgeStyle:** `color` (hex), `widthMultiplier` (float).
 
-# Метод Аргументы Возвращает Разрешение
-44 oniks.clipboard.copy text true / false clipboard
-45 oniks.clipboard.paste — string clipboard
-46 oniks.clipboard.hasText — true / false clipboard
+Возврат `null` — не менять стандартный вид.
+
+**Нюанс:** степень узла (`node.degree`) зависит от размера графа. На маленьких базах (10–20 заметок) `degree >= 3` может никогда не сработать. Начинайте с `degree >= 1`, повышайте порог по мере роста базы.
 
 ---
 
-11. oniks.share — системный диалог «Поделиться»
+## 9. `oniks.settings` — чтение настроек
 
-# Метод Аргументы Возвращает Разрешение
-47 oniks.share.send text, [title] true / false share
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 38 | `oniks.settings.getTheme` | — | `"system"` / `"light"` / `"dark"` | `read_settings` |
+| 39 | `oniks.settings.getLanguage` | — | `"system"` / `"ru"` / `"en"` и т.д. | `read_settings` |
+| 40 | `oniks.settings.getAppLanguage` | — | `"system"` / `"ru"` / `"en"` | `read_settings` |
+| 41 | `oniks.settings.getSpeechLanguage` | — | BCP-47 тег или `""` | `read_settings` |
+| 42 | `oniks.settings.isAutoSaveEnabled` | — | `true` / `false` | `read_settings` |
+| 43 | `oniks.settings.getHomeRecentLimit` | — | `3` / `5` / `10` | `read_settings` |
+
+---
+
+## 10. `oniks.clipboard` — буфер обмена
+
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 44 | `oniks.clipboard.copy` | `text` | `true` / `false` | `clipboard` |
+| 45 | `oniks.clipboard.paste` | — | `string` | `clipboard` |
+| 46 | `oniks.clipboard.hasText` | — | `true` / `false` | `clipboard` |
+
+---
+
+## 11. `oniks.share` — системный диалог «Поделиться»
+
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 47 | `oniks.share.send` | `text, [title]` | `true` / `false` | `share` |
 
 Открывает системный диалог «Поделиться» с указанным текстом.
 
 ---
 
-12. oniks.markdown — парсинг Markdown
+## 12. `oniks.markdown` — парсинг Markdown
 
-# Метод Аргументы Возвращает Разрешение
-48 oniks.markdown.toPlainText markdown string —
-49 oniks.markdown.render markdown string (со структурой) —
-50 oniks.markdown.parseWikiLinks text массив строк —
-51 oniks.markdown.parseTags text массив строк —
-52 oniks.markdown.parseHeadings text массив {level, text} —
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 48 | `oniks.markdown.toPlainText` | `markdown` | `string` | — |
+| 49 | `oniks.markdown.render` | `markdown` | `string` (со структурой) | — |
+| 50 | `oniks.markdown.parseWikiLinks` | `text` | массив строк | — |
+| 51 | `oniks.markdown.parseTags` | `text` | массив строк | — |
+| 52 | `oniks.markdown.parseHeadings` | `text` | массив `{level, text}` | — |
 
-toPlainText — полностью убирает Markdown-разметку.
+**`toPlainText`** — полностью убирает Markdown-разметку.
 
-render — сохраняет структуру (#, -, - [ ], >), нормализует пробелы.
+**`render`** — сохраняет структуру (`#`, `-`, `- [ ]`, `>`), нормализует пробелы.
 
 ---
 
-13. oniks.events — подписка на события
+## 13. `oniks.events` — подписка на события
 
-# Метод Аргументы Возвращает Разрешение
-53 oniks.events.on eventName, handler — events
-54 oniks.events.off eventName, [handler] int (снято) events
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 53 | `oniks.events.on` | `eventName, handler` | — | `events` |
+| 54 | `oniks.events.off` | `eventName, [handler]` | `int` (снято) | `events` |
 
 Дедупликация: один и тот же обработчик не регистрируется дважды.
 
