@@ -232,17 +232,18 @@ off("eventName") — снимает все обработчики события
 
 off("eventName", handler) — снимает конкретный обработчик.
 
-Доступные события
+### Доступные события
 
-Событие Когда срабатывает Поля data
-startup Плагин загружен и активен —
-shutdown Плагин выключается —
-noteCreated Создана заметка id, title, body, tags, collectionId
-noteUpdated Заметка сохранена id, title, body, tags, collectionId
-noteDeleted Заметка удалена id
-noteOpened Открыт редактор заметки id
-collectionCreated Создана коллекция id, name
-collectionDeleted Коллекция удалена id
+| Событие | Когда срабатывает | Поля `data` |
+|---|---|---|
+| `startup` | Плагин загружен и активен | — |
+| `shutdown` | Плагин выключается | — |
+| `noteCreated` | Создана заметка | `id, title, body, tags, collectionId` |
+| `noteUpdated` | Заметка сохранена | `id, title, body, tags, collectionId` |
+| `noteDeleted` | Заметка удалена | `id` |
+| `noteOpened` | Открыт редактор заметки | `id` |
+| `collectionCreated` | Создана коллекция | `id, name` |
+| `collectionDeleted` | Коллекция удалена | `id` |
 
 Обработчики вызываются асинхронно. Если обработчик бросает исключение — оно логируется, остальные обработчики всё равно вызываются.
 
