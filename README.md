@@ -12,7 +12,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.23-F57C00?style=plastic" alt="Version 1.23">
+  <img src="https://img.shields.io/badge/Version-1.24-F57C00?style=plastic" alt="Version 1.24">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
@@ -430,7 +430,7 @@ phreakO7@mail.ru
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.23-F57C00?style=plastic" alt="Version 1.23">
+  <img src="https://img.shields.io/badge/Version-1.24-F57C00?style=plastic" alt="Version 1.24">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
