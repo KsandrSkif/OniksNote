@@ -119,7 +119,7 @@ updated: number
 }
 ```
 
-**Структура заметки в `getNote` / `getAllWithBody`:**
+Структура заметки в getNote / getAllWithBody:
 
 ```yaml
 {
@@ -129,137 +129,129 @@ collectionId: string
 }
 ```
 
-**При первом использовании `write_notes`** пользователю показывается диалог подтверждения. Без согласия операции возвращают `false` / `undefined`.
+При первом использовании write_notes пользователю показывается диалог подтверждения. Без согласия операции возвращают false / undefined.
 
 ---
 
-## 6. `oniks.dialog` — модальные диалоги
+6. oniks.dialog — модальные диалоги
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 34 | `oniks.dialog.alert` | `message, [title]` | — | `ui_dialog` |
-| 35 | `oniks.dialog.confirm` | `message, [title]` | `true` / `false` | `ui_dialog` |
+# Метод Аргументы Возвращает Разрешение
+34 oniks.dialog.alert message, [title] — ui_dialog
+35 oniks.dialog.confirm message, [title] true / false ui_dialog
 
-Вызовы **блокируют** поток плагина до ответа пользователя. Не используйте в цикле.
-
----
-
-## 7. `oniks.renderer` — препроцессор Markdown
-
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 36 | `oniks.renderer.register` | `{id, process}` | — | `render_custom` |
-
-`process(text)` получает весь текст заметки перед рендером и возвращает изменённый текст. Порядок препроцессоров — порядок регистрации.
+Вызовы блокируют поток плагина до ответа пользователя. Не используйте в цикле.
 
 ---
 
-## 8. `oniks.graph` — стилизация графа
+7. oniks.renderer — препроцессор Markdown
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 37 | `oniks.graph.register` | `{id, nodeStyler?, edgeStyler?, labelStyler?}` | — | `graph_style` |
+# Метод Аргументы Возвращает Разрешение
+36 oniks.renderer.register {id, process} — render_custom
 
-**Поля NodeStyle:** `color` (hex), `radiusMultiplier` (float), `borderColor` (hex).
-
-**Поля EdgeStyle:** `color` (hex), `widthMultiplier` (float).
-
-Возврат `null` — не менять стандартный вид.
+process(text) получает весь текст заметки перед рендером и возвращает изменённый текст. Порядок препроцессоров — порядок регистрации.
 
 ---
 
-## 9. `oniks.settings` — чтение настроек
+8. oniks.graph — стилизация графа
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 38 | `oniks.settings.getTheme` | — | `"system"` / `"light"` / `"dark"` | `read_settings` |
-| 39 | `oniks.settings.getLanguage` | — | `"system"` / `"ru"` / `"en"` и т.д. | `read_settings` |
-| 40 | `oniks.settings.getAppLanguage` | — | `"system"` / `"ru"` / `"en"` | `read_settings` |
-| 41 | `oniks.settings.getSpeechLanguage` | — | BCP-47 тег или `""` | `read_settings` |
-| 42 | `oniks.settings.isAutoSaveEnabled` | — | `true` / `false` | `read_settings` |
-| 43 | `oniks.settings.getHomeRecentLimit` | — | `3` / `5` / `10` | `read_settings` |
+# Метод Аргументы Возвращает Разрешение
+37 oniks.graph.register {id, nodeStyler?, edgeStyler?, labelStyler?} — graph_style
 
----
+Поля NodeStyle: color (hex), radiusMultiplier (float), borderColor (hex).
 
-## 10. `oniks.clipboard` — буфер обмена
+Поля EdgeStyle: color (hex), widthMultiplier (float).
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 44 | `oniks.clipboard.copy` | `text` | `true` / `false` | `clipboard` |
-| 45 | `oniks.clipboard.paste` | — | `string` | `clipboard` |
-| 46 | `oniks.clipboard.hasText` | — | `true` / `false` | `clipboard` |
+Возврат null — не менять стандартный вид.
+
+Нюанс: степень узла (node.degree) зависит от размера графа. На маленьких базах (10–20 заметок) degree >= 3 может никогда не сработать. Начинайте с degree >= 1, повышайте порог по мере роста базы.
 
 ---
 
-## 11. `oniks.share` — системный диалог «Поделиться»
+9. oniks.settings — чтение настроек
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 47 | `oniks.share.send` | `text, [title]` | `true` / `false` | `share` |
+# Метод Аргументы Возвращает Разрешение
+38 oniks.settings.getTheme — "system" / "light" / "dark" read_settings
+39 oniks.settings.getLanguage — "system" / "ru" / "en" и т.д. read_settings
+40 oniks.settings.getAppLanguage — "system" / "ru" / "en" read_settings
+41 oniks.settings.getSpeechLanguage — BCP-47 тег или "" read_settings
+42 oniks.settings.isAutoSaveEnabled — true / false read_settings
+43 oniks.settings.getHomeRecentLimit — 3 / 5 / 10 read_settings
+
+---
+
+10. oniks.clipboard — буфер обмена
+
+# Метод Аргументы Возвращает Разрешение
+44 oniks.clipboard.copy text true / false clipboard
+45 oniks.clipboard.paste — string clipboard
+46 oniks.clipboard.hasText — true / false clipboard
+
+---
+
+11. oniks.share — системный диалог «Поделиться»
+
+# Метод Аргументы Возвращает Разрешение
+47 oniks.share.send text, [title] true / false share
 
 Открывает системный диалог «Поделиться» с указанным текстом.
 
 ---
 
-## 12. `oniks.markdown` — парсинг Markdown
+12. oniks.markdown — парсинг Markdown
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 48 | `oniks.markdown.toPlainText` | `markdown` | `string` | — |
-| 49 | `oniks.markdown.render` | `markdown` | `string` (со структурой) | — |
-| 50 | `oniks.markdown.parseWikiLinks` | `text` | массив строк | — |
-| 51 | `oniks.markdown.parseTags` | `text` | массив строк | — |
-| 52 | `oniks.markdown.parseHeadings` | `text` | массив `{level, text}` | — |
+# Метод Аргументы Возвращает Разрешение
+48 oniks.markdown.toPlainText markdown string —
+49 oniks.markdown.render markdown string (со структурой) —
+50 oniks.markdown.parseWikiLinks text массив строк —
+51 oniks.markdown.parseTags text массив строк —
+52 oniks.markdown.parseHeadings text массив {level, text} —
 
-**`toPlainText`** — полностью убирает Markdown-разметку.
+toPlainText — полностью убирает Markdown-разметку.
 
-**`render`** — сохраняет структуру (`#`, `-`, `- [ ]`, `>`), нормализует пробелы.
-
----
-
-## 13. `oniks.events` — подписка на события
-
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 53 | `oniks.events.on` | `eventName, handler` | — | `events` |
-| 54 | `oniks.events.off` | `eventName, [handler]` | `int` (снято) | `events` |
-
-**Дедупликация:** один и тот же обработчик не регистрируется дважды.
-
-**`off("eventName")`** — снимает все обработчики события.
-
-**`off("eventName", handler)`** — снимает конкретный обработчик.
-
-### Доступные события
-
-| Событие | Когда срабатывает | Поля `data` |
-|---|---|---|
-| `startup` | Плагин загружен и активен | — |
-| `shutdown` | Плагин выключается | — |
-| `noteCreated` | Создана заметка | `id, title, body, tags, collectionId` |
-| `noteUpdated` | Заметка сохранена | `id, title, body, tags, collectionId` |
-| `noteDeleted` | Заметка удалена | `id` |
-| `noteOpened` | Открыт редактор заметки | `id` |
-| `collectionCreated` | Создана коллекция | `id, name` |
-| `collectionDeleted` | Коллекция удалена | `id` |
-
-**Обработчики вызываются асинхронно.** Если обработчик бросает исключение — оно логируется, остальные обработчики всё равно вызываются.
-
-**Осторожно с `write_notes` внутри `noteCreated`** — можно создать бесконечный цикл.
+render — сохраняет структуру (#, -, - [ ], >), нормализует пробелы.
 
 ---
 
-## 14. `oniks.collections` — работа с коллекциями
+13. oniks.events — подписка на события
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 55 | `oniks.collections.getAll` | — | массив коллекций | `collections` |
-| 56 | `oniks.collections.getNotesCount` | `id` | `int` | `collections` |
-| 57 | `oniks.collections.create` | `name` | `id` | `collections` + `write_notes` |
-| 58 | `oniks.collections.rename` | `id, newName` | `true` / `false` | `collections` + `write_notes` |
-| 59 | `oniks.collections.delete` | `id` | `true` / `false` | `collections` + `write_notes` |
+# Метод Аргументы Возвращает Разрешение
+53 oniks.events.on eventName, handler — events
+54 oniks.events.off eventName, [handler] int (снято) events
 
-**Структура коллекции:**
+Дедупликация: один и тот же обработчик не регистрируется дважды.
+
+off("eventName") — снимает все обработчики события.
+
+off("eventName", handler) — снимает конкретный обработчик.
+
+Доступные события
+
+Событие Когда срабатывает Поля data
+startup Плагин загружен и активен —
+shutdown Плагин выключается —
+noteCreated Создана заметка id, title, body, tags, collectionId
+noteUpdated Заметка сохранена id, title, body, tags, collectionId
+noteDeleted Заметка удалена id
+noteOpened Открыт редактор заметки id
+collectionCreated Создана коллекция id, name
+collectionDeleted Коллекция удалена id
+
+Обработчики вызываются асинхронно. Если обработчик бросает исключение — оно логируется, остальные обработчики всё равно вызываются.
+
+Осторожно с write_notes внутри noteCreated — можно создать бесконечный цикл.
+
+---
+
+14. oniks.collections — работа с коллекциями
+
+# Метод Аргументы Возвращает Разрешение
+55 oniks.collections.getAll — массив коллекций collections
+56 oniks.collections.getNotesCount id int collections
+57 oniks.collections.create name id collections + write_notes
+58 oniks.collections.rename id, newName true / false collections + write_notes
+59 oniks.collections.delete id true / false collections + write_notes
+
+Структура коллекции:
 
 ```yaml
 {
@@ -270,87 +262,164 @@ created: number
 }
 ```
 
-**Заметки в коллекции** получаются через `oniks.notes.getByCollection(id)`.
+Заметки в коллекции получаются через oniks.notes.getByCollection(id).
 
 ---
 
-## 15. `oniks.ui` — UI-навигация
+15. oniks.ui — UI-навигация
 
-| # | Метод | Аргументы | Возвращает | Разрешение |
-|---|---|---|---|---|
-| 60 | `oniks.ui.openNote` | `id` | `true` / `false` | `read_notes` |
+# Метод Аргументы Возвращает Разрешение
+60 oniks.ui.openNote id true / false read_notes
 
-Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в `onResume`). Возвращает `true`, если навигация запущена.
+Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в onResume). Возвращает true, если навигация запущена.
 
----
-
-## Разрешения
-
-| # | Разрешение | Что покрывает |
-|---|---|---|
-| 1 | `commands` | `oniks.commands.register` |
-| 2 | `read_notes` | 11 методов `oniks.notes` (чтение) + `oniks.ui.openNote` |
-| 3 | `write_notes` | 3 метода `oniks.notes` (запись) + `oniks.collections.create/rename/delete` (совместно с `collections`). Требует диалога подтверждения. |
-| 4 | `read_settings` | 6 методов `oniks.settings` |
-| 5 | `ui_dialog` | 2 метода `oniks.dialog` |
-| 6 | `render_custom` | `oniks.renderer.register` |
-| 7 | `graph_style` | `oniks.graph.register` |
-| 8 | `clipboard` | 3 метода `oniks.clipboard` |
-| 9 | `share` | `oniks.share.send` |
-| 10 | `events` | 2 метода `oniks.events` + 8 событий |
-| 11 | `collections` | 5 методов `oniks.collections` |
-| 12 | `ui_panel` | Зарезервировано |
+Не открывайте заметку внутри обработчика noteOpened — получится бесконечный цикл.
 
 ---
 
-## Итого
+Разрешения
 
-| Namespace | Методов | Разрешение |
-|---|---|---|
-| `oniks.log` | 3 | — |
-| `oniks.storage` | 4 | — |
-| `oniks.commands` | 1 | `commands` |
-| `oniks.editor` | 11 | — |
-| `oniks.notes` | 14 | `read_notes` / `write_notes` |
-| `oniks.dialog` | 2 | `ui_dialog` |
-| `oniks.renderer` | 1 | `render_custom` |
-| `oniks.graph` | 1 | `graph_style` |
-| `oniks.settings` | 6 | `read_settings` |
-| `oniks.clipboard` | 3 | `clipboard` |
-| `oniks.share` | 1 | `share` |
-| `oniks.markdown` | 5 | — |
-| `oniks.events` | 2 | `events` |
-| `oniks.collections` | 5 | `collections` + `write_notes` |
-| `oniks.ui` | 1 | `read_notes` |
-| **Всего** | **60** | **12 разрешений** |
+# Разрешение Что покрывает
+1 commands oniks.commands.register
+2 read_notes 11 методов oniks.notes (чтение) + oniks.ui.openNote
+3 write_notes 3 метода oniks.notes (запись) + oniks.collections.create/rename/delete (совместно с collections). Требует диалога подтверждения.
+4 read_settings 6 методов oniks.settings
+5 ui_dialog 2 метода oniks.dialog
+6 render_custom oniks.renderer.register
+7 graph_style oniks.graph.register
+8 clipboard 3 метода oniks.clipboard
+9 share oniks.share.send
+10 events 2 метода oniks.events + 8 событий
+11 collections 5 методов oniks.collections
+12 ui_panel Зарезервировано
 
 ---
 
-## Ограничения
+Итого
 
-**JavaScript — только ES5.** Не поддерживаются:
+Namespace Методов Разрешение
+oniks.log 3 —
+oniks.storage 4 —
+oniks.commands 1 commands
+oniks.editor 11 —
+oniks.notes 14 read_notes / write_notes
+oniks.dialog 2 ui_dialog
+oniks.renderer 1 render_custom
+oniks.graph 1 graph_style
+oniks.settings 6 read_settings
+oniks.clipboard 3 clipboard
+oniks.share 1 share
+oniks.markdown 5 —
+oniks.events 2 events
+oniks.collections 5 collections + write_notes
+oniks.ui 1 read_notes
+Всего 60 12 разрешений
 
-- `let`, `const` — используйте `var`.
-- Стрелочные функции — используйте `function() {}`.
-- Template literals — используйте конкатенацию `"text " + x`.
-- `class`, `import`, `export`.
-- Spread `...` и destructuring `{a, b} = obj`.
-- Lookbehind в регулярках: `(?<=...)`, `(?<!...)`.
-- `Array.prototype.includes` — используйте `indexOf() >= 0`.
-- `Promise`, `async`, `await`.
-- `Symbol`.
-- `try / catch` — Rhino на Android падает при создании catch-scope (`javax.lang.model.SourceVersion`). Проверяйте типы через `typeof` и явные условия.
+---
 
-**Песочница.** Нет доступа к:
+Ограничения
 
-- Java-классам Android.
-- Файловой системе.
-- Сети.
-- Системным API.
-- Другим плагинам.
+JavaScript — только ES5
 
-**Лимиты:**
+Не поддерживаются:
 
-- Размер архива: до 50 МБ распакованного.
-- Файл `manifest.json`: до 64 КБ.
-- Один поток на плагин.
+· let, const — используйте var.
+· Стрелочные функции — используйте function() {}.
+· Template literals — используйте конкатенацию "text " + x.
+· class, import, export.
+· Spread ... и destructuring {a, b} = obj.
+· Lookbehind в регулярках: (?<=...), (?<!...).
+· Array.prototype.includes — используйте indexOf() >= 0.
+· Array.prototype.flat, flatMap.
+· String.prototype.padStart, padEnd.
+· Object.entries, Object.values.
+· String.prototype.matchAll.
+· Promise, async, await.
+· Symbol.
+
+---
+
+Критические особенности Rhino на Android
+
+Движок Rhino 1.7.14 на Android имеет три фундаментальных отличия от обычного JavaScript. Их обязательно учитывать — иначе плагин будет падать или тихо не работать.
+
+1. try/catch не работает
+
+При входе в блок try Rhino пытается создать catch-scope и падает с:
+
+```yaml
+java.lang.NoClassDefFoundError: Ljavax/lang/model/SourceVersion;
+```
+
+Приложение не крашится — ошибка ловится на стороне Оникса. Но команда плагина прерывается и до конца не выполняется.
+
+Не используйте try/catch в плагинах. Проверяйте типы через typeof и явные условия.
+
+```javascript
+// НЕПРАВИЛЬНО — команда прервётся:
+try {
+    var all = oniks.notes.getAll();
+} catch (e) {
+    oniks.log.error("failed");
+}
+
+// ПРАВИЛЬНО:
+if (typeof oniks.notes.getAll !== "function") {
+    oniks.log.error("getAll недоступен");
+    return;
+}
+var all = oniks.notes.getAll();
+```
+
+2. .call(), .apply(), .bind() не работают на методах oniks.*
+
+Методы oniks.* — это Java-обёртки, а не обычные JS-функции. Если вынести метод в переменную и вызвать через .call() — Rhino падает с ошибкой:
+
+```yaml
+TypeError: Cannot find default value for object
+```
+
+Вызывайте методы напрямую:
+
+```javascript
+// НЕПРАВИЛЬНО:
+var fn = oniks.notes.getAll;
+var all = fn.call(oniks.notes);
+
+// ПРАВИЛЬНО:
+var all = oniks.notes.getAll();
+```
+
+Это касается всех методов oniks.*, включая oniks.notes.getAll, oniks.notes.getRecent, oniks.ui.openNote и т.д.
+
+3. Эмодзи вне BMP могут не отрисоваться
+
+Символы вида ✅, ❌, 🖼 — это пары surrogate в UTF-16. Rhino на Android может передать их в диалог некорректно, и они не отобразятся.
+
+Используйте ASCII-маркеры: [OK], [FAIL], [!], *.
+
+```javascript
+// НЕПРАВИЛЬНО:
+oniks.dialog.alert("✅ Проверка пройдена");
+
+// ПРАВИЛЬНО:
+oniks.dialog.alert("[OK] Проверка пройдена");
+```
+
+---
+
+Нет доступа к:
+
+· Java-классам Android.
+· Файловой системе.
+· Сети.
+· Системным API.
+· Другим плагинам.
+
+---
+
+Лимиты
+
+· Размер архива: до 50 МБ распакованного.
+· Файл manifest.json: до 64 КБ.
+· Один поток на плагин.
