@@ -62,18 +62,25 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 - **Install from `.zip`** — manifest + code + optional icon.
 - **Runtime** — Rhino JS (ES5), isolated thread per plugin.
-- **`oniks` API**:
+- **`oniks` API — 14 namespaces, 56 methods:**
   - `oniks.log` — logging
   - `oniks.storage` — local JSON storage
   - `oniks.commands` — commands in the editor menu
-  - `oniks.editor` — work with the active editor
-  - `oniks.notes` — notes (read/write/search)
+  - `oniks.editor` — work with the active editor (including `getNoteId`)
+  - `oniks.notes` — notes (read / write / search)
   - `oniks.dialog` — `alert` / `confirm`
   - `oniks.renderer` — Markdown preprocessor
   - `oniks.graph` — graph styling (`nodeStyler`, `edgeStyler`, `labelStyler`)
-- **Permissions** — 8 in total, including `graph_style`. Confirmation dialog for `write_notes`, management screen with revocation.
+  - `oniks.settings` — read app settings
+  - `oniks.clipboard` — system clipboard
+  - `oniks.share` — system "Share" dialog
+  - `oniks.markdown` — Markdown parsing (no rendering)
+  - `oniks.events` — subscribe to app events
+  - `oniks.collections` — collections (create / rename / delete)
+- **Permissions** — 12 in total. Confirmation dialog for `write_notes`, management screen with revocation.
 - **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
 - **Built-in guide** — all manifest fields, API, permissions, limitations, example.
+- **Full API reference** — see [Plugins-API.md](Plugins-API.md).
 
 ### Voice
 
@@ -359,14 +366,18 @@ oniks.commands.register({
 
 | Permission | What it grants |
 |---|---|
-| `read_notes` | Read notes |
-| `write_notes` | Modify notes (confirmation dialog) |
-| `read_settings` | Read settings (reserved) |
-| `ui_panel` | Additional panels (reserved) |
-| `ui_dialog` | Show dialogs |
+| `commands` | Register commands in the editor menu |
+| `read_notes` | Read notes (`getAll`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) |
+| `write_notes` | Modify notes (`create`, `update`, `delete`) and collections (`create`, `rename`, `delete`). Confirmation dialog on first use. |
+| `read_settings` | Read app settings |
+| `ui_dialog` | Show dialogs (`alert`, `confirm`) |
 | `render_custom` | Markdown preprocessor |
-| `commands` | Register commands |
 | `graph_style` | Graph styling |
+| `clipboard` | System clipboard |
+| `share` | System "Share" dialog |
+| `events` | Subscribe to app events |
+| `collections` | Read collections (`getAll`, `getNotesCount`) |
+| `ui_panel` | Reserved for future use |
 
 ### Limitations
 
@@ -377,11 +388,17 @@ oniks.commands.register({
 ### What a plugin can do
 
 - Add commands to the editor menu.
-- Insert or modify text in the editor.
+- Insert or modify text in the editor (including the current note's `id` via `editor.getNoteId()`).
 - Create, read, update, delete notes.
-- Show dialogs.
+- Manage collections.
+- Show dialogs (`alert`, `confirm`).
 - Preprocess note text before rendering.
 - Change color, size, and outline of graph nodes and edges, and labels.
+- Read app settings.
+- Work with the system clipboard.
+- Open the system "Share" dialog.
+- Parse Markdown (plain text, structure, wiki-links, tags, headings).
+- Subscribe to app events (note created / updated / deleted / opened, collection created / deleted, plugin startup / shutdown).
 
 ---
 
@@ -462,20 +479,27 @@ phreakO7@mail.ru
 
 **Расширение функциональности через JavaScript.**
 
-- **Установка из `.zip`** — манифест + код + опционально иконка.
+- **Установка из `.zip`** — манифест + код + опциональная иконка.
 - **Runtime** — Rhino JS (ES5), изолированный поток на плагин.
-- **API `oniks`**:
+- **API `oniks` — 14 namespace, 56 методов:**
   - `oniks.log` — логирование
   - `oniks.storage` — локальное JSON-хранилище
   - `oniks.commands` — команды в меню редактора
-  - `oniks.editor` — работа с активным редактором
-  - `oniks.notes` — заметки (чтение/запись/поиск)
+  - `oniks.editor` — работа с активным редактором (включая `getNoteId`)
+  - `oniks.notes` — заметки (чтение / запись / поиск)
   - `oniks.dialog` — `alert` / `confirm`
   - `oniks.renderer` — препроцессор Markdown
   - `oniks.graph` — стилизация графа (`nodeStyler`, `edgeStyler`, `labelStyler`)
-- **Разрешения** — 8 штук, включая `graph_style`. Диалог подтверждения для `write_notes`, экран управления с отзывом.
-- **Иконки** из `icon.png` в архиве — в списке, оверлеях установки и описания.
+  - `oniks.settings` — чтение настроек приложения
+  - `oniks.clipboard` — системный буфер обмена
+  - `oniks.share` — системный диалог «Поделиться»
+  - `oniks.markdown` — парсинг Markdown (без рендеринга)
+  - `oniks.events` — подписка на события приложения
+  - `oniks.collections` — коллекции (создание / переименование / удаление)
+- **Разрешения** — 12. Диалог подтверждения для `write_notes`, экран управления с отзывом.
+- **Иконки** из `icon.png` в архиве — в списке, оверлее установки и оверлее деталей.
 - **Встроенная инструкция** — все поля манифеста, API, разрешения, ограничения, пример.
+- **Полный справочник API** — см. [Plugins-API.md](Plugins-API.md).
 
 ### Голос
 
@@ -760,14 +784,18 @@ oniks.commands.register({
 
 | Разрешение | Что даёт |
 |---|---|
-| `read_notes` | Чтение заметок |
-| `write_notes` | Изменение заметок (диалог подтверждения) |
-| `read_settings` | Чтение настроек (зарезервировано) |
-| `ui_panel` | Дополнительные панели (зарезервировано) |
-| `ui_dialog` | Показ диалогов |
+| `commands` | Регистрация команд в меню редактора |
+| `read_notes` | Чтение заметок (`getAll`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) |
+| `write_notes` | Изменение заметок (`create`, `update`, `delete`) и коллекций (`create`, `rename`, `delete`). Диалог подтверждения при первом использовании. |
+| `read_settings` | Чтение настроек приложения |
+| `ui_dialog` | Показ диалогов (`alert`, `confirm`) |
 | `render_custom` | Препроцессор Markdown |
-| `commands` | Регистрация команд |
 | `graph_style` | Стилизация графа |
+| `clipboard` | Системный буфер обмена |
+| `share` | Системный диалог «Поделиться» |
+| `events` | Подписка на события приложения |
+| `collections` | Чтение коллекций (`getAll`, `getNotesCount`) |
+| `ui_panel` | Зарезервировано |
 
 ### Ограничения
 
@@ -778,11 +806,17 @@ oniks.commands.register({
 ### Что может плагин
 
 - Добавлять команды в меню редактора.
-- Вставлять/менять текст в редакторе.
-- Создавать, читать, обновлять, удалять заметки.
-- Показывать диалоги.
-- Преобразовывать текст заметки перед рендером.
-- Менять цвет, размер, обводку узлов и рёбер графа, подписи.
+- Вставлять и изменять текст в редакторе (включая `id` текущей заметки через `editor.getNoteId()`).
+- Создавать, читать, изменять, удалять заметки.
+- Управлять коллекциями.
+- Показывать диалоги (`alert`, `confirm`).
+- Препроцессить текст заметки перед рендером.
+- Менять цвет, размер и обводку узлов и рёбер графа, а также подписи.
+- Читать настройки приложения.
+- Работать с системным буфером обмена.
+- Открывать системный диалог «Поделиться».
+- Парсить Markdown (плоский текст, структура, wiki-ссылки, теги, заголовки).
+- Подписываться на события приложения (заметка создана / изменена / удалена / открыта, коллекция создана / удалена, запуск / остановка плагина).
 
 ---
 
