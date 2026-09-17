@@ -339,6 +339,7 @@ created: number
 - `Array.prototype.includes` — используйте `indexOf() >= 0`.
 - `Promise`, `async`, `await`.
 - `Symbol`.
+- `try / catch` — Rhino на Android падает при создании catch-scope (`javax.lang.model.SourceVersion`). Проверяйте типы через `typeof` и явные условия.
 
 **Песочница.** Нет доступа к:
 
