@@ -330,25 +330,23 @@ created: number
 
 ---
 
-Ограничения
+## Ограничения
 
-JavaScript — только ES5
+**JavaScript — только ES5.** Не поддерживаются:
 
-Не поддерживаются:
-
-· let, const — используйте var.
-· Стрелочные функции — используйте function() {}.
-· Template literals — используйте конкатенацию "text " + x.
-· class, import, export.
-· Spread ... и destructuring {a, b} = obj.
-· Lookbehind в регулярках: (?<=...), (?<!...).
-· Array.prototype.includes — используйте indexOf() >= 0.
-· Array.prototype.flat, flatMap.
-· String.prototype.padStart, padEnd.
-· Object.entries, Object.values.
-· String.prototype.matchAll.
-· Promise, async, await.
-· Symbol.
+- `let`, `const` — используйте `var`.
+- Стрелочные функции — используйте `function() {}`.
+- Template literals — используйте конкатенацию `"text " + x`.
+- `class`, `import`, `export`.
+- Spread `...` и destructuring `{a, b} = obj`.
+- Lookbehind в регулярках: `(?<=...)`, `(?<!...)`.
+- `Array.prototype.includes` — используйте `indexOf() >= 0`.
+- `Array.prototype.flat`, `flatMap`.
+- `String.prototype.padStart`, `padEnd`.
+- `Object.entries`, `Object.values`.
+- `String.prototype.matchAll`.
+- `Promise`, `async`, `await`.
+- `Symbol`.
 
 ---
 
