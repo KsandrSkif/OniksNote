@@ -155,7 +155,7 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 | Home | Notes | Viewer |
 |---|---|---|
-|![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg)|![Notes](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg)|![Viewer](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
+|![Home](https://github.com/KsandrSkif/OniksNote/main/screenshots/1.jpg)|![Notes](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg)|![Viewer](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
 
 | Graph | Library | Settings |
 |---|---|---|
