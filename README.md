@@ -1,6 +1,6 @@
 ## Description EN / [RU](#oniks-ru)
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.5-F57C00?style=plastic" alt="New version 1.24.5">
+<img src="https://img.shields.io/badge/New_version-1.24.6-F57C00?style=plastic" alt="New version 1.24.6">
 </p>
 
 # Oniks 
@@ -443,7 +443,7 @@ phreakO7@mail.ru
 ## Описание RU / [EN](#oniks)
 
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.5-F57C00?style=plastic" alt="New version 1.24.5">
+<img src="https://img.shields.io/badge/New_version-1.24.6-F57C00?style=plastic" alt="New version 1.24.6">
 </p>
 
 # Oniks-ru
