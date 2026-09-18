@@ -1,6 +1,6 @@
 ## Description EN / [RU](#oniks-ru)
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.9-F57C00?style=plastic" alt="New version 1.24.9">
+<img src="https://img.shields.io/badge/New_version-1.25-F57C00?style=plastic" alt="New version 1.25">
 </p>
 
 # Oniks 
@@ -15,7 +15,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.24-F57C00?style=plastic" alt="Version 1.24">
+  <img src="https://img.shields.io/badge/Version-1.25-F57C00?style=plastic" alt="Version 1.25">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
@@ -457,7 +457,7 @@ phreakO7@mail.ru
 ## Описание RU / [EN](#oniks)
 
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.9-F57C00?style=plastic" alt="New version 1.24.9">
+<img src="https://img.shields.io/badge/New_version-1.25-F57C00?style=plastic" alt="New version 1.25">
 </p>
 
 # Oniks-ru
@@ -472,7 +472,7 @@ phreakO7@mail.ru
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-2EA043?style=plastic" alt="MIT License">
-  <img src="https://img.shields.io/badge/Version-1.24-F57C00?style=plastic" alt="Version 1.24">
+  <img src="https://img.shields.io/badge/Version-1.25-F57C00?style=plastic" alt="Version 1.25">
   <img src="https://img.shields.io/badge/Status-Active-2EA043?style=plastic" alt="Active">
   <img src="https://img.shields.io/badge/Local--First-100%25-9C27B0?style=plastic" alt="Local-First">
 </p>
