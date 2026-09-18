@@ -58,9 +58,40 @@
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 8 | `oniks.commands.register` | `{id, title, handler}` | — | `commands` |
+| 8 | `oniks.commands.register` | `{id, title, handler, icon?}` | — | `commands` |
 
 Команды появляются в меню редактора (три точки в тулбаре).
+
+**Поля объекта:**
+
+| Поле | Обязательное | Описание |
+|---|---|---|
+| `id` | Да | Уникален в рамках плагина. |
+| `title` | Да | Отображается в меню. |
+| `handler` | Да | Функция без аргументов. |
+| `icon` | Нет | Имя иконки из белого списка Оникса. Если не указано или не найдено — команда показывается без иконки. |
+
+**Доступные имена иконок (25):**
+
+```yaml
+add, check, close, copy, delete, edit, export, folder, graph,
+import, info, library, link, markdown, mic, note, pin, save,
+search, settings, share, sort, star, undo, warning
+
+```
+
+Пример с иконкой:
+
+```javascript
+oniks.commands.register({
+    id: "improve-note",
+    title: "Улучшить текст",
+    icon: "star",
+    handler: function () {
+        // ...
+    }
+});
+```
 
 ---
 
