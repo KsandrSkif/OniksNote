@@ -442,6 +442,10 @@ phreakO7@mail.ru
 
 ## Описание RU / [EN](#oniks)
 
+<p align="center">
+<img src="https://img.shields.io/badge/New_version-1.24.5-F57C00?style=plastic" alt="New version 1.24.5">
+</p>
+
 # Oniks-ru
 
 <p align="center">
