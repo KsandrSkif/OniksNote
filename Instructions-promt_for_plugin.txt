@@ -122,12 +122,13 @@ var keys = oniks.storage.keys();       // массив всех ключей
 
 ### `oniks.commands`
 
-Регистрация команд — они появятся в меню редактора (три точки в тулбаре). Требует разрешения `commands`.
+Регистрация команд — они появятся в меню редактора (три точки в тулбаре). Требует разрешения commands.
 
 ```javascript
 oniks.commands.register({
     id: "insert-date",
     title: "Вставить дату",
+    icon: "star",
     handler: function () {
         var d = new Date();
         oniks.editor.insertText(d.toLocaleDateString());
@@ -135,9 +136,20 @@ oniks.commands.register({
 });
 ```
 
-- `id` — уникален в рамках плагина.
-- `title` — отображается в меню.
-- `handler` — функция без аргументов.
+· `id` — уникален в рамках плагина.
+· `title` — отображается в меню.
+· `handler` — функция без аргументов.
+· `icon` — опционально. Имя иконки из белого списка Оникса. Если не указано или не найдено — команда показывается без иконки.
+
+Доступные имена иконок (25):
+
+```
+add, check, close, copy, delete, edit, export, folder, graph,
+import, info, library, link, markdown, mic, note, pin, save,
+search, settings, share, sort, star, undo, warning
+```
+
+Использование иконки — не обязательно. Если её нет — команда просто отображается текстом.
 
 ### `oniks.editor`
 
