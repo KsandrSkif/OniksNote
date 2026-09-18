@@ -65,7 +65,7 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 - **`oniks` API — 15 namespaces, 60 methods:**
   - `oniks.log` — logging
   - `oniks.storage` — local JSON storage
-  - `oniks.commands` — commands in the editor menu
+  - `oniks.commands` — commands in the editor menu (with optional icons from the Oniks whitelist)
   - `oniks.editor` — work with the active editor (including `getNoteId`)
   - `oniks.notes` — notes (read / write / search), including `getAllWithBody`, `getRecent`, `getPinned`
   - `oniks.dialog` — `alert` / `confirm`
@@ -80,6 +80,7 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
   - `oniks.ui` — UI navigation (`openNote`)
 - **Permissions** — 12 in total. Confirmation dialog for `write_notes`, management screen with revocation.
 - **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
+- **Command icons** — optional, from a whitelist of 25 names (`star`, `warning`, `info`, `note`, `folder`, and others).
 - **Built-in guide** — all manifest fields, API, permissions, limitations, example.
 - **Full API reference** — see [PLUGIN_API.md](PLUGIN_API.md).
 
@@ -233,23 +234,25 @@ app/src/main/
 │   │                            # PermissionRequestBridge, UIBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
-│   └── ui/
-│       ├── home/                # HomeFragment, QuickCreateDialogFragment
-│       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
-│       ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
-│       ├── viewer/              # ViewNoteFragment
-│       ├── voice/               # VoiceInputFragment
-│       ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
-│       ├── library/             # LibraryClustering, LibraryFragment
-│       ├── collections/         # CollectionsFragment, CollectionsViewModel
-│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
-│       │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
-│       │                        # PluginDialogFragment, PermissionRequestDialogFragment
-│       ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
-│       ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
-│       ├── tile/                # QuickVoiceNoteTileService
-│       ├── widget/              # QuickNoteWidgetProvider
-│       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
+│   ├── ui/
+│   │   ├── home/                # HomeFragment, QuickCreateDialogFragment
+│   │   ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
+│   │   ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
+│   │   ├── viewer/              # ViewNoteFragment
+│   │   ├── voice/               # VoiceInputFragment
+│   │   ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
+│   │   ├── library/             # LibraryClustering, LibraryFragment
+│   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
+│   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
+│   │   │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
+│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment
+│   │   ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
+│   │   ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
+│   │   ├── tile/                # QuickVoiceNoteTileService
+│   │   ├── widget/              # QuickNoteWidgetProvider
+│   │   └── common/              # AudioPermissionHelper, UndoSnackbarHelper
+│   └── util/
+│       └── IconRegistry.kt      # Whitelist of command icons for plugins
 ├── res/
 │   ├── anim/, drawable/, layout/, menu/, mipmap-*/, navigation/
 │   ├── values/, values-night/, values-en/, xml/
@@ -354,6 +357,7 @@ my-plugin.zip
 oniks.commands.register({
     id: "insert-date",
     title: "Insert date",
+    icon: "star",
     handler: function () {
         var d = new Date();
         var day = ("0" + d.getDate()).slice(-2);
@@ -363,11 +367,23 @@ oniks.commands.register({
 });
 ```
 
+### Command icons
+
+Optional. The `icon` field accepts one of **25 whitelisted names**:
+
+```
+add, check, close, copy, delete, edit, export, folder, graph,
+import, info, library, link, markdown, mic, note, pin, save,
+search, settings, share, sort, star, undo, warning
+```
+
+If the name is not in the whitelist or `icon` is omitted — the command is shown without an icon.
+
 ### Permissions
 
 | Permission | What it grants |
 |---|---|
-| `commands` | Register commands in the editor menu |
+| `commands` | Register commands in the editor menu (with optional icons) |
 | `read_notes` | Read notes (11 methods: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Modify notes (`create`, `update`, `delete`) and collections (`create`, `rename`, `delete`). Confirmation dialog on first use. |
 | `read_settings` | Read app settings |
@@ -391,7 +407,7 @@ oniks.commands.register({
 
 ### What a plugin can do
 
-- Add commands to the editor menu.
+- Add commands to the editor menu (with optional icons from the Oniks whitelist).
 - Insert or modify text in the editor (including the current note's `id` via `editor.getNoteId()`).
 - Create, read, update, delete notes.
 - Manage collections.
@@ -488,7 +504,7 @@ phreakO7@mail.ru
 - **API `oniks` — 15 namespace, 60 методов:**
   - `oniks.log` — логирование
   - `oniks.storage` — локальное JSON-хранилище
-  - `oniks.commands` — команды в меню редактора
+  - `oniks.commands` — команды в меню редактора (с опциональными иконками из белого списка Оникса)
   - `oniks.editor` — работа с активным редактором (включая `getNoteId`)
   - `oniks.notes` — заметки (чтение / запись / поиск), включая `getAllWithBody`, `getRecent`, `getPinned`
   - `oniks.dialog` — `alert` / `confirm`
@@ -503,6 +519,7 @@ phreakO7@mail.ru
   - `oniks.ui` — UI-навигация (`openNote`)
 - **Разрешения** — 12. Диалог подтверждения для `write_notes`, экран управления с отзывом.
 - **Иконки** из `icon.png` в архиве — в списке, оверлее установки и оверлее деталей.
+- **Иконки команд** — опционально, из белого списка (25 имён: `star`, `warning`, `info`, `note`, `folder` и другие).
 - **Встроенная инструкция** — все поля манифеста, API, разрешения, ограничения, пример.
 - **Полный справочник API** — см. [PLUGIN_API.md](PLUGIN_API.md).
 
@@ -655,23 +672,25 @@ app/src/main/
 │   │                            # PermissionRequestBridge, UIBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
-│   └── ui/
-│       ├── home/                # HomeFragment, QuickCreateDialogFragment
-│       ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
-│       ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
-│       ├── viewer/              # ViewNoteFragment
-│       ├── voice/               # VoiceInputFragment
-│       ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
-│       ├── library/             # LibraryClustering, LibraryFragment
-│       ├── collections/         # CollectionsFragment, CollectionsViewModel
-│       ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
-│       │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
-│       │                        # PluginDialogFragment, PermissionRequestDialogFragment
-│       ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
-│       ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
-│       ├── tile/                # QuickVoiceNoteTileService
-│       ├── widget/              # QuickNoteWidgetProvider
-│       └── common/              # AudioPermissionHelper, UndoSnackbarHelper
+│   ├── ui/
+│   │   ├── home/                # HomeFragment, QuickCreateDialogFragment
+│   │   ├── notes/               # NotesFragment, NoteAdapter, SwipeActionsCallback
+│   │   ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
+│   │   ├── viewer/              # ViewNoteFragment
+│   │   ├── voice/               # VoiceInputFragment
+│   │   ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
+│   │   ├── library/             # LibraryClustering, LibraryFragment
+│   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
+│   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
+│   │   │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
+│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment
+│   │   ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
+│   │   ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
+│   │   ├── tile/                # QuickVoiceNoteTileService
+│   │   ├── widget/              # QuickNoteWidgetProvider
+│   │   └── common/              # AudioPermissionHelper, UndoSnackbarHelper
+│   └── util/
+│       └── IconRegistry.kt      # Белый список иконок команд для плагинов
 ├── res/
 │   ├── anim/, drawable/, layout/, menu/, mipmap-*/, navigation/
 │   ├── values/, values-night/, values-en/, xml/
@@ -775,6 +794,7 @@ my-plugin.zip
 oniks.commands.register({
     id: "insert-date",
     title: "Вставить дату",
+    icon: "star",
     handler: function () {
         var d = new Date();
         var day = ("0" + d.getDate()).slice(-2);
@@ -784,11 +804,23 @@ oniks.commands.register({
 });
 ```
 
+### Иконки команд
+
+Опционально. Поле `icon` принимает одно из **25 имён белого списка**:
+
+```
+add, check, close, copy, delete, edit, export, folder, graph,
+import, info, library, link, markdown, mic, note, pin, save,
+search, settings, share, sort, star, undo, warning
+```
+
+Если имя не в белом списке или поле `icon` не указано — команда отображается без иконки.
+
 ### Разрешения
 
 | Разрешение | Что даёт |
 |---|---|
-| `commands` | Регистрация команд в меню редактора |
+| `commands` | Регистрация команд в меню редактора (с опциональными иконками) |
 | `read_notes` | Чтение заметок (11 методов: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Изменение заметок (`create`, `update`, `delete`) и коллекций (`create`, `rename`, `delete`). Диалог подтверждения при первом использовании. |
 | `read_settings` | Чтение настроек приложения |
@@ -812,7 +844,7 @@ oniks.commands.register({
 
 ### Что может плагин
 
-- Добавлять команды в меню редактора.
+- Добавлять команды в меню редактора (с опциональными иконками из белого списка Оникса).
 - Вставлять и изменять текст в редакторе (включая `id` текущей заметки через `editor.getNoteId()`).
 - Создавать, читать, изменять, удалять заметки.
 - Управлять коллекциями.
