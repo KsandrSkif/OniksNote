@@ -3,7 +3,9 @@
 <img src="https://img.shields.io/badge/New_version-1.24.5-F57C00?style=plastic" alt="New version 1.24.5">
 </p>
 
-# Oniks
+# Oniks <p align="center">
+<img src="https://img.shields.io/badge/New_version-1.24.5-F57C00?style=plastic" alt="New version 1.24.5">
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=plastic&logo=android&logoColor=white" alt="Android">
