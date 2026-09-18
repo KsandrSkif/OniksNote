@@ -1,6 +1,6 @@
 ## Description EN / [RU](#oniks-ru)
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.6-F57C00?style=plastic" alt="New version 1.24.6">
+<img src="https://img.shields.io/badge/New_version-1.24.9-F57C00?style=plastic" alt="New version 1.24.9">
 </p>
 
 # Oniks 
@@ -65,7 +65,7 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 - **Install from `.zip`** — manifest + code + optional icon.
 - **Runtime** — Rhino JS (ES5), isolated thread per plugin.
-- **`oniks` API — 15 namespaces, 60 methods:**
+- **`oniks` API — 15 namespaces, 68 methods:**
   - `oniks.log` — logging
   - `oniks.storage` — local JSON storage
   - `oniks.commands` — commands in the editor menu (with optional icons from the Oniks whitelist)
@@ -80,8 +80,11 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
   - `oniks.markdown` — Markdown parsing (no rendering)
   - `oniks.events` — subscribe to app events
   - `oniks.collections` — collections (create / rename / delete)
-  - `oniks.ui` — UI navigation (`openNote`)
-- **Permissions** — 12 in total. Confirmation dialog for `write_notes`, management screen with revocation.
+  - `oniks.ui` — UI navigation and customization:
+    - `openNote` — open a note in the viewer
+    - **Themes** — 8 preset themes (`setTheme`, `setThemeColorsHex`, `resetTheme`, `getTheme`, `getAvailableThemes`)
+    - **Note card style** — full hex freedom (`setNoteCardStyle`, `resetNoteCardStyle`, `getNoteCardStyle`)
+- **Permissions** — 14 in total. Confirmation dialog for `write_notes`, management screen with revocation.
 - **Icons** from `icon.png` in the archive — in the list, install overlay, and details overlay.
 - **Command icons** — optional, from a whitelist of 25 names (`star`, `warning`, `info`, `note`, `folder`, and others).
 - **Built-in guide** — all manifest fields, API, permissions, limitations, example.
@@ -98,6 +101,8 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 ### Knowledge graph
 
 - **Custom force-directed algorithm** — separates disconnected components, regions proportional to size
+- **Dynamic physics simulation** — nodes "breathe", settle into equilibrium with damping
+- **Live drag** — long-press a node, neighbors follow with delay (BFS levels), foreign groups slide as a single body
 - **Obsidian-style visuals**:
   - edges — thin Bezier curves with smooth bend
   - nodes — semi-transparent fill + background-colored outline
@@ -234,7 +239,9 @@ app/src/main/
 │   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
 │   │                            # PluginApi, PluginStorage, PluginPermissionStore,
 │   │                            # EditorBridge, PluginDialogBridge,
-│   │                            # PermissionRequestBridge, UIBridge, PluginCommand
+│   │                            # PermissionRequestBridge, UIBridge,
+│   │                            # UIThemeBridge, UIThemePresets, UIThemeTokens,
+│   │                            # NoteCardStyle, NoteCardStyleBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   ├── ui/
@@ -243,7 +250,8 @@ app/src/main/
 │   │   ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
 │   │   ├── viewer/              # ViewNoteFragment
 │   │   ├── voice/               # VoiceInputFragment
-│   │   ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
+│   │   ├── graph/               # GraphView, ForceDirectedLayout, ForceDirectedSimulator,
+│   │   │                        # GraphStyles, GraphFragment
 │   │   ├── library/             # LibraryClustering, LibraryFragment
 │   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
 │   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
@@ -391,6 +399,8 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 | `write_notes` | Modify notes (`create`, `update`, `delete`) and collections (`create`, `rename`, `delete`). Confirmation dialog on first use. |
 | `read_settings` | Read app settings |
 | `ui_dialog` | Show dialogs (`alert`, `confirm`) |
+| `ui_theme` | Choose a preset app theme (8 variants) |
+| `ui_note_card` | Customize note card style (full hex freedom) |
 | `render_custom` | Markdown preprocessor |
 | `graph_style` | Graph styling |
 | `clipboard` | System clipboard |
@@ -407,6 +417,8 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 - **Emoji outside BMP** (`✅`, `❌`) may not render in dialogs. Use ASCII markers: `[OK]`, `[FAIL]`.
 - No access to Java classes, file system, or network.
 - One thread per plugin.
+- **Themes** — only 8 preset ids. `setThemeColorsHex` picks the nearest preset, but exact hex is not guaranteed.
+- **Note card style** — full hex freedom, but applied only after returning to the notes list.
 
 ### What a plugin can do
 
@@ -423,6 +435,8 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 - Parse Markdown (plain text, structure, wiki-links, tags, headings).
 - Subscribe to app events (note created / updated / deleted / opened, collection created / deleted, plugin startup / shutdown).
 - Open a note in the viewer via `oniks.ui.openNote(id)`.
+- Choose one of 8 preset app themes via `oniks.ui.setTheme("red")`.
+- Customize note card style via `oniks.ui.setNoteCardStyle({...})` — colors, sizes, visibility.
 
 ---
 
@@ -443,7 +457,7 @@ phreakO7@mail.ru
 ## Описание RU / [EN](#oniks)
 
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.24.6-F57C00?style=plastic" alt="New version 1.24.6">
+<img src="https://img.shields.io/badge/New_version-1.24.9-F57C00?style=plastic" alt="New version 1.24.9">
 </p>
 
 # Oniks-ru
@@ -508,7 +522,7 @@ phreakO7@mail.ru
 
 - **Установка из `.zip`** — манифест + код + опциональная иконка.
 - **Runtime** — Rhino JS (ES5), изолированный поток на плагин.
-- **API `oniks` — 15 namespace, 60 методов:**
+- **API `oniks` — 15 namespace, 68 методов:**
   - `oniks.log` — логирование
   - `oniks.storage` — локальное JSON-хранилище
   - `oniks.commands` — команды в меню редактора (с опциональными иконками из белого списка Оникса)
@@ -523,8 +537,11 @@ phreakO7@mail.ru
   - `oniks.markdown` — парсинг Markdown (без рендеринга)
   - `oniks.events` — подписка на события приложения
   - `oniks.collections` — коллекции (создание / переименование / удаление)
-  - `oniks.ui` — UI-навигация (`openNote`)
-- **Разрешения** — 12. Диалог подтверждения для `write_notes`, экран управления с отзывом.
+  - `oniks.ui` — UI-навигация и кастомизация:
+    - `openNote` — открыть заметку в просмотрщике
+    - **Темы** — 8 предустановленных тем (`setTheme`, `setThemeColorsHex`, `resetTheme`, `getTheme`, `getAvailableThemes`)
+    - **Стиль карточек** — полная свобода hex (`setNoteCardStyle`, `resetNoteCardStyle`, `getNoteCardStyle`)
+- **Разрешения** — 14. Диалог подтверждения для `write_notes`, экран управления с отзывом.
 - **Иконки** из `icon.png` в архиве — в списке, оверлее установки и оверлее деталей.
 - **Иконки команд** — опционально, из белого списка (25 имён: `star`, `warning`, `info`, `note`, `folder` и другие).
 - **Встроенная инструкция** — все поля манифеста, API, разрешения, ограничения, пример.
@@ -541,6 +558,8 @@ phreakO7@mail.ru
 ### Граф знаний
 
 - **Свой алгоритм force-directed** — разделение несвязных компонент, регионы пропорционально размеру
+- **Динамическая физика симуляции** — узлы «дышат», приходят к равновесию с демпфированием
+- **Живой drag** — долгий тап на узле, соседи тянутся с задержкой (BFS-уровни), чужие группы скользят единым телом
 - **Визуальный стиль Obsidian**:
   - рёбра — тонкие кривые Безье с плавным изгибом
   - узлы — полупрозрачная заливка + обводка цвета фона
@@ -676,7 +695,9 @@ app/src/main/
 │   │   └── plugins/             # PluginInstaller, PluginManager, PluginRuntime,
 │   │                            # PluginApi, PluginStorage, PluginPermissionStore,
 │   │                            # EditorBridge, PluginDialogBridge,
-│   │                            # PermissionRequestBridge, UIBridge, PluginCommand
+│   │                            # PermissionRequestBridge, UIBridge,
+│   │                            # UIThemeBridge, UIThemePresets, UIThemeTokens,
+│   │                            # NoteCardStyle, NoteCardStyleBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   ├── ui/
@@ -685,7 +706,8 @@ app/src/main/
 │   │   ├── editor/              # EditNoteFragment, WikiAutocompleteController, TagAutocompleteController
 │   │   ├── viewer/              # ViewNoteFragment
 │   │   ├── voice/               # VoiceInputFragment
-│   │   ├── graph/               # GraphView, ForceDirectedLayout, GraphStyles, GraphFragment
+│   │   ├── graph/               # GraphView, ForceDirectedLayout, ForceDirectedSimulator,
+│   │   │                        # GraphStyles, GraphFragment
 │   │   ├── library/             # LibraryClustering, LibraryFragment
 │   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
 │   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
@@ -832,6 +854,8 @@ search, settings, share, sort, star, undo, warning
 | `write_notes` | Изменение заметок (`create`, `update`, `delete`) и коллекций (`create`, `rename`, `delete`). Диалог подтверждения при первом использовании. |
 | `read_settings` | Чтение настроек приложения |
 | `ui_dialog` | Показ диалогов (`alert`, `confirm`) |
+| `ui_theme` | Выбор предустановленной темы приложения (8 вариантов) |
+| `ui_note_card` | Кастомизация карточек заметок (полная свобода hex) |
 | `render_custom` | Препроцессор Markdown |
 | `graph_style` | Стилизация графа |
 | `clipboard` | Системный буфер обмена |
@@ -848,6 +872,8 @@ search, settings, share, sort, star, undo, warning
 - **Эмодзи вне BMP** (`✅`, `❌`) могут не отрисоваться в диалогах. Используйте ASCII: `[OK]`, `[FAIL]`.
 - Нет доступа к Java-классам, файловой системе, сети.
 - Один поток на плагин.
+- **Темы** — только 8 предустановленных id. `setThemeColorsHex` подбирает ближайшую, но точный hex не гарантируется.
+- **Стиль карточек** — полная свобода hex, но применяется только при следующем возврате в список заметок.
 
 ### Что может плагин
 
@@ -864,6 +890,8 @@ search, settings, share, sort, star, undo, warning
 - Парсить Markdown (плоский текст, структура, wiki-ссылки, теги, заголовки).
 - Подписываться на события приложения (заметка создана / изменена / удалена / открыта, коллекция создана / удалена, запуск / остановка плагина).
 - Открывать заметку в просмотрщике через `oniks.ui.openNote(id)`.
+- Выбирать одну из 8 предустановленных тем приложения через `oniks.ui.setTheme("red")`.
+- Настраивать стиль карточек заметок через `oniks.ui.setNoteCardStyle({...})` — цвета, размеры, видимость.
 
 ---
 
