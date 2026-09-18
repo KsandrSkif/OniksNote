@@ -155,11 +155,11 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 | Home | Notes | Viewer |
 |---|---|---|
-|![Home](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/1.jpg)|![Notes](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg)|![Viewer](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
+|![Home](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/1.jpg)|![Notes](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/3.jpg)|![Viewer](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/8.jpg)|
 
 | Graph | Library | Settings |
 |---|---|---|
-|![Graph](https://github.com/KsandrSkif/OniksNote/releases/download/V1/6.jpg)|![Library](https://github.com/KsandrSkif/OniksNote/releases/download/V1/7.jpg)|![Settings](https://github.com/KsandrSkif/OniksNote/releases/download/V1/5.jpg)|
+|![Graph](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/6.jpg)|![Library](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/7.jpg)|![Settings](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/5.jpg)|
 
 ---
 
@@ -597,11 +597,11 @@ phreakO7@mail.ru
 
 | Home | Заметки | Просмотр |
 |---|---|---|
-|![Home](https://github.com/KsandrSkif/OniksNote/releases/download/V1/1.jpg)|![Заметки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/3.jpg)|![Просмотр](https://github.com/KsandrSkif/OniksNote/releases/download/V1/8.jpg)|
+|![Home](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/1.jpg)|![Заметки](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/3.jpg)|![Просмотр](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/8.jpg)|
 
 | Граф | Библиотека | Настройки |
 |---|---|---|
-|![Граф](https://github.com/KsandrSkif/OniksNote/releases/download/V1/6.jpg)|![Библиотека](https://github.com/KsandrSkif/OniksNote/releases/download/V1/7.jpg)|![Настройки](https://github.com/KsandrSkif/OniksNote/releases/download/V1/5.jpg)|
+|![Граф](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/6.jpg)|![Библиотека](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/7.jpg)|![Настройки](https://github.com/KsandrSkif/OniksNote/blob/main/screenshots/5.jpg)|
 
 ---
 
