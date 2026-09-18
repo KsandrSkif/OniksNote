@@ -3,7 +3,7 @@
 Полная таблица API для разработки плагинов Оникса.
 
 **Версия API:** 1
-**Всего:** 60 методов, 15 namespace, 12 разрешений.
+**Всего:** 68 методов, 15 namespace, 14 разрешений.
 
 ---
 
@@ -23,7 +23,7 @@
 12. [oniks.markdown](#12-oniksmarkdown--парсинг-markdown)
 13. [oniks.events](#13-oniksevents--подписка-на-события)
 14. [oniks.collections](#14-onikscollections--работа-с-коллекциями)
-15. [oniks.ui](#15-oniksui--ui-навигация)
+15. [oniks.ui](#15-oniksui--ui-навигация-и-кастомизация)
 16. [Разрешения](#разрешения)
 17. [Итого](#итого)
 
@@ -307,7 +307,9 @@ created: number
 
 ---
 
-## 15. `oniks.ui` — UI-навигация
+## 15. `oniks.ui` — UI-навигация и кастомизация
+
+### 15.1 Навигация (требует `read_notes`)
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
@@ -316,6 +318,87 @@ created: number
 Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в `onResume`). Возвращает `true`, если навигация запущена.
 
 **Не открывайте заметку внутри обработчика `noteOpened`** — получится бесконечный цикл.
+
+### 15.2 Темы приложения (требует `ui_theme`)
+
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 61 | `oniks.ui.setTheme` | `id` | `true` / `false` | `ui_theme` |
+| 62 | `oniks.ui.setThemeColorsHex` | `{colorPrimary}` | `id` темы или `""` | `ui_theme` |
+| 63 | `oniks.ui.resetTheme` | — | `true` / `false` | `ui_theme` |
+| 64 | `oniks.ui.getTheme` | — | `id` темы или `""` | `ui_theme` |
+| 65 | `oniks.ui.getAvailableThemes` | — | массив строк | `ui_theme` |
+
+**Доступные id тем (8):**
+
+```yaml
+red, blue, green, purple, amber, pink, teal, monochrome
+```
+
+**Пример:**
+
+```javascript
+var themes = oniks.ui.getAvailableThemes();
+if (themes.indexOf("red") >= 0) {
+    oniks.ui.setTheme("red");
+}
+```
+
+**Про `setThemeColorsHex`:** экспериментальный метод. Принимает hex основного цвета (`colorPrimary`), подбирает **ближайшую** из 8 предустановленных тем по HSV-расстоянию. Точный hex **не гарантируется**. Для точного контроля используйте `setTheme` с конкретным id.
+
+Тема применяется через пересоздание Activity — небольшой визуальный переход. Это норма.
+
+При удалении плагина тема снимается автоматически.
+
+### 15.3 Стиль карточек заметок (требует `ui_note_card`)
+
+| # | Метод | Аргументы | Возвращает | Разрешение |
+|---|---|---|---|---|
+| 66 | `oniks.ui.setNoteCardStyle` | `{...}` | `int` (применено полей) | `ui_note_card` |
+| 67 | `oniks.ui.resetNoteCardStyle` | — | `true` / `false` | `ui_note_card` |
+| 68 | `oniks.ui.getNoteCardStyle` | — | объект стиля | `ui_note_card` |
+
+**Полная свобода hex** — цвета применяются напрямую к карточкам, минуя тему. Все поля опциональны.
+
+| Поле | Тип | Что делает |
+|---|---|---|
+| `showPreview` | boolean | Показывать превью заметки. |
+| `showDate` | boolean | Показывать дату. |
+| `showTags` | boolean | Показывать теги. |
+| `showLinks` | boolean | Показывать счётчик связей. |
+| `showPin` | boolean | Показывать иконку закрепления. |
+| `cardBackground` | hex | Цвет фона карточки. |
+| `titleColor` | hex | Цвет заголовка. |
+| `previewColor` | hex | Цвет превью. |
+| `dateColor` | hex | Цвет даты. |
+| `tagBackground` | hex | Цвет фона тегов. |
+| `tagTextColor` | hex | Цвет текста тегов. |
+| `pinColor` | hex | Цвет иконки закрепления. |
+| `linksColor` | hex | Цвет счётчика связей. |
+| `titleSize` | число (SP) | Размер заголовка. |
+| `previewSize` | число (SP) | Размер превью. |
+| `dateSize` | число (SP) | Размер даты. |
+| `tagTextSize` | число (SP) | Размер текста тегов. |
+| `cornerRadius` | число (dp) | Радиус углов карточки. |
+| `cardPaddingH` | число (dp) | Горизонтальные отступы. |
+| `cardPaddingV` | число (dp) | Вертикальные отступы. |
+
+**Пример:**
+
+```javascript
+oniks.ui.setNoteCardStyle({
+    showPreview: false,
+    showDate: false,
+    cardBackground: "#2A2A2A",
+    titleColor: "#FFFFFF",
+    titleSize: 17,
+    cornerRadius: 12
+});
+```
+
+**Важно:** стиль применяется к карточкам **при следующем возврате в список заметок**. Пока список открыт, изменения не перерисуются мгновенно — нужно уйти и вернуться.
+
+Стиль снимается автоматически при удалении плагина.
 
 ---
 
@@ -328,13 +411,15 @@ created: number
 | 3 | `write_notes` | 3 метода `oniks.notes` (запись) + `oniks.collections.create/rename/delete` (совместно с `collections`). Требует диалога подтверждения. |
 | 4 | `read_settings` | 6 методов `oniks.settings` |
 | 5 | `ui_dialog` | 2 метода `oniks.dialog` |
-| 6 | `render_custom` | `oniks.renderer.register` |
-| 7 | `graph_style` | `oniks.graph.register` |
-| 8 | `clipboard` | 3 метода `oniks.clipboard` |
-| 9 | `share` | `oniks.share.send` |
-| 10 | `events` | 2 метода `oniks.events` + 8 событий |
-| 11 | `collections` | 5 методов `oniks.collections` |
-| 12 | `ui_panel` | Зарезервировано |
+| 6 | `ui_theme` | 5 методов `oniks.ui` (темы) |
+| 7 | `ui_note_card` | 3 метода `oniks.ui` (карточки) |
+| 8 | `render_custom` | `oniks.renderer.register` |
+| 9 | `graph_style` | `oniks.graph.register` |
+| 10 | `clipboard` | 3 метода `oniks.clipboard` |
+| 11 | `share` | `oniks.share.send` |
+| 12 | `events` | 2 метода `oniks.events` + 8 событий |
+| 13 | `collections` | 5 методов `oniks.collections` |
+| 14 | `ui_panel` | Зарезервировано |
 
 ---
 
@@ -356,8 +441,8 @@ created: number
 | `oniks.markdown` | 5 | — |
 | `oniks.events` | 2 | `events` |
 | `oniks.collections` | 5 | `collections` + `write_notes` |
-| `oniks.ui` | 1 | `read_notes` |
-| **Всего** | **60** | **12 разрешений** |
+| `oniks.ui` | 9 | `read_notes`, `ui_theme`, `ui_note_card` |
+| **Всего** | **68** | **14 разрешений** |
 
 ---
 
