@@ -3,7 +3,7 @@
 Полная таблица API для разработки плагинов Оникса.
 
 **Версия API:** 1
-**Всего:** 68 методов, 15 namespace, 14 разрешений.
+**Всего:** 70 методов, 15 namespace, 14 разрешений.
 
 ---
 
@@ -170,8 +170,47 @@ collectionId: string
 |---|---|---|---|---|
 | 34 | `oniks.dialog.alert` | `message, [title]` | — | `ui_dialog` |
 | 35 | `oniks.dialog.confirm` | `message, [title]` | `true` / `false` | `ui_dialog` |
+| 36 | `oniks.dialog.prompt` | `message, [default], [title]` | `string` или `undefined` | `ui_dialog` |
+| 37 | `oniks.dialog.choose` | `message, items, [title]` | `int` (индекс) или `-1` | `ui_dialog` |
 
-Вызовы **блокируют** поток плагина до ответа пользователя. Не используйте в цикле.
+**`prompt`** — диалог ввода текста. Аргументы:
+- `message` — вопрос.
+- `[default]` — предзаполненный текст (опционально).
+- `[title]` — заголовок диалога (опционально).
+
+Возвращает введённую строку или `undefined`, если пользователь отменил.
+
+**`choose`** — диалог выбора из списка. Аргументы:
+- `message` — вопрос.
+- `items` — массив строк.
+- `[title]` — заголовок диалога (опционально).
+
+Возвращает индекс выбранного варианта (`0..N-1`) или `-1`, если пользователь отменил.
+
+**Примеры:**
+
+```javascript
+// prompt
+var name = oniks.dialog.prompt("Как вас зовут?");
+if (name !== undefined) {
+    oniks.log.info("Привет, " + name);
+}
+
+// prompt с дефолтом и заголовком
+var city = oniks.dialog.prompt("Ваш город?", "Москва", "Знакомство");
+
+// choose
+var colors = ["Красный", "Зелёный", "Синий"];
+var idx = oniks.dialog.choose("Какой цвет?", colors);
+if (idx >= 0) {
+    oniks.log.info("Выбрано: " + colors[idx]);
+}
+
+// choose с заголовком
+var picked = oniks.dialog.choose("Любимая еда", ["Пицца", "Суши", "Паста"], "Опрос");
+```
+
+Все четыре метода **блокируют** поток плагина до ответа пользователя. Не используйте в цикле.
 
 ---
 
@@ -179,7 +218,7 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 36 | `oniks.renderer.register` | `{id, process}` | — | `render_custom` |
+| 38 | `oniks.renderer.register` | `{id, process}` | — | `render_custom` |
 
 `process(text)` получает весь текст заметки перед рендером и возвращает изменённый текст. Порядок препроцессоров — порядок регистрации.
 
@@ -189,7 +228,7 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 37 | `oniks.graph.register` | `{id, nodeStyler?, edgeStyler?, labelStyler?}` | — | `graph_style` |
+| 39 | `oniks.graph.register` | `{id, nodeStyler?, edgeStyler?, labelStyler?}` | — | `graph_style` |
 
 **Поля NodeStyle:** `color` (hex), `radiusMultiplier` (float), `borderColor` (hex).
 
@@ -205,12 +244,12 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 38 | `oniks.settings.getTheme` | — | `"system"` / `"light"` / `"dark"` | `read_settings` |
-| 39 | `oniks.settings.getLanguage` | — | `"system"` / `"ru"` / `"en"` и т.д. | `read_settings` |
-| 40 | `oniks.settings.getAppLanguage` | — | `"system"` / `"ru"` / `"en"` | `read_settings` |
-| 41 | `oniks.settings.getSpeechLanguage` | — | BCP-47 тег или `""` | `read_settings` |
-| 42 | `oniks.settings.isAutoSaveEnabled` | — | `true` / `false` | `read_settings` |
-| 43 | `oniks.settings.getHomeRecentLimit` | — | `3` / `5` / `10` | `read_settings` |
+| 40 | `oniks.settings.getTheme` | — | `"system"` / `"light"` / `"dark"` | `read_settings` |
+| 41 | `oniks.settings.getLanguage` | — | `"system"` / `"ru"` / `"en"` и т.д. | `read_settings` |
+| 42 | `oniks.settings.getAppLanguage` | — | `"system"` / `"ru"` / `"en"` | `read_settings` |
+| 43 | `oniks.settings.getSpeechLanguage` | — | BCP-47 тег или `""` | `read_settings` |
+| 44 | `oniks.settings.isAutoSaveEnabled` | — | `true` / `false` | `read_settings` |
+| 45 | `oniks.settings.getHomeRecentLimit` | — | `3` / `5` / `10` | `read_settings` |
 
 ---
 
@@ -218,9 +257,9 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 44 | `oniks.clipboard.copy` | `text` | `true` / `false` | `clipboard` |
-| 45 | `oniks.clipboard.paste` | — | `string` | `clipboard` |
-| 46 | `oniks.clipboard.hasText` | — | `true` / `false` | `clipboard` |
+| 46 | `oniks.clipboard.copy` | `text` | `true` / `false` | `clipboard` |
+| 47 | `oniks.clipboard.paste` | — | `string` | `clipboard` |
+| 48 | `oniks.clipboard.hasText` | — | `true` / `false` | `clipboard` |
 
 ---
 
@@ -228,7 +267,7 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 47 | `oniks.share.send` | `text, [title]` | `true` / `false` | `share` |
+| 49 | `oniks.share.send` | `text, [title]` | `true` / `false` | `share` |
 
 Открывает системный диалог «Поделиться» с указанным текстом.
 
@@ -238,11 +277,11 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 48 | `oniks.markdown.toPlainText` | `markdown` | `string` | — |
-| 49 | `oniks.markdown.render` | `markdown` | `string` (со структурой) | — |
-| 50 | `oniks.markdown.parseWikiLinks` | `text` | массив строк | — |
-| 51 | `oniks.markdown.parseTags` | `text` | массив строк | — |
-| 52 | `oniks.markdown.parseHeadings` | `text` | массив `{level, text}` | — |
+| 50 | `oniks.markdown.toPlainText` | `markdown` | `string` | — |
+| 51 | `oniks.markdown.render` | `markdown` | `string` (со структурой) | — |
+| 52 | `oniks.markdown.parseWikiLinks` | `text` | массив строк | — |
+| 53 | `oniks.markdown.parseTags` | `text` | массив строк | — |
+| 54 | `oniks.markdown.parseHeadings` | `text` | массив `{level, text}` | — |
 
 **`toPlainText`** — полностью убирает Markdown-разметку.
 
@@ -254,8 +293,8 @@ collectionId: string
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 53 | `oniks.events.on` | `eventName, handler` | — | `events` |
-| 54 | `oniks.events.off` | `eventName, [handler]` | `int` (снято) | `events` |
+| 55 | `oniks.events.on` | `eventName, handler` | — | `events` |
+| 56 | `oniks.events.off` | `eventName, [handler]` | `int` (снято) | `events` |
 
 Дедупликация: один и тот же обработчик не регистрируется дважды.
 
@@ -286,11 +325,11 @@ off("eventName", handler) — снимает конкретный обработ
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 55 | `oniks.collections.getAll` | — | массив коллекций | `collections` |
-| 56 | `oniks.collections.getNotesCount` | `id` | `int` | `collections` |
-| 57 | `oniks.collections.create` | `name` | `id` | `collections` + `write_notes` |
-| 58 | `oniks.collections.rename` | `id, newName` | `true` / `false` | `collections` + `write_notes` |
-| 59 | `oniks.collections.delete` | `id` | `true` / `false` | `collections` + `write_notes` |
+| 57 | `oniks.collections.getAll` | — | массив коллекций | `collections` |
+| 58 | `oniks.collections.getNotesCount` | `id` | `int` | `collections` |
+| 59 | `oniks.collections.create` | `name` | `id` | `collections` + `write_notes` |
+| 60 | `oniks.collections.rename` | `id, newName` | `true` / `false` | `collections` + `write_notes` |
+| 61 | `oniks.collections.delete` | `id` | `true` / `false` | `collections` + `write_notes` |
 
 **Структура коллекции:**
 
@@ -313,7 +352,7 @@ created: number
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 60 | `oniks.ui.openNote` | `id` | `true` / `false` | `read_notes` |
+| 62 | `oniks.ui.openNote` | `id` | `true` / `false` | `read_notes` |
 
 Открывает заметку в просмотрщике. Работает только когда приложение активно (Activity в `onResume`). Возвращает `true`, если навигация запущена.
 
@@ -323,11 +362,11 @@ created: number
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 61 | `oniks.ui.setTheme` | `id` | `true` / `false` | `ui_theme` |
-| 62 | `oniks.ui.setThemeColorsHex` | `{colorPrimary}` | `id` темы или `""` | `ui_theme` |
-| 63 | `oniks.ui.resetTheme` | — | `true` / `false` | `ui_theme` |
-| 64 | `oniks.ui.getTheme` | — | `id` темы или `""` | `ui_theme` |
-| 65 | `oniks.ui.getAvailableThemes` | — | массив строк | `ui_theme` |
+| 63 | `oniks.ui.setTheme` | `id` | `true` / `false` | `ui_theme` |
+| 64 | `oniks.ui.setThemeColorsHex` | `{colorPrimary}` | `id` темы или `""` | `ui_theme` |
+| 65 | `oniks.ui.resetTheme` | — | `true` / `false` | `ui_theme` |
+| 66 | `oniks.ui.getTheme` | — | `id` темы или `""` | `ui_theme` |
+| 67 | `oniks.ui.getAvailableThemes` | — | массив строк | `ui_theme` |
 
 **Доступные id тем (8):**
 
@@ -354,9 +393,9 @@ if (themes.indexOf("red") >= 0) {
 
 | # | Метод | Аргументы | Возвращает | Разрешение |
 |---|---|---|---|---|
-| 66 | `oniks.ui.setNoteCardStyle` | `{...}` | `int` (применено полей) | `ui_note_card` |
-| 67 | `oniks.ui.resetNoteCardStyle` | — | `true` / `false` | `ui_note_card` |
-| 68 | `oniks.ui.getNoteCardStyle` | — | объект стиля | `ui_note_card` |
+| 68 | `oniks.ui.setNoteCardStyle` | `{...}` | `int` (применено полей) | `ui_note_card` |
+| 69 | `oniks.ui.resetNoteCardStyle` | — | `true` / `false` | `ui_note_card` |
+| 70 | `oniks.ui.getNoteCardStyle` | — | объект стиля | `ui_note_card` |
 
 **Полная свобода hex** — цвета применяются напрямую к карточкам, минуя тему. Все поля опциональны.
 
@@ -410,7 +449,7 @@ oniks.ui.setNoteCardStyle({
 | 2 | `read_notes` | 11 методов `oniks.notes` (чтение) + `oniks.ui.openNote` |
 | 3 | `write_notes` | 3 метода `oniks.notes` (запись) + `oniks.collections.create/rename/delete` (совместно с `collections`). Требует диалога подтверждения. |
 | 4 | `read_settings` | 6 методов `oniks.settings` |
-| 5 | `ui_dialog` | 2 метода `oniks.dialog` |
+| 5 | `ui_dialog` | 4 метода `oniks.dialog` |
 | 6 | `ui_theme` | 5 методов `oniks.ui` (темы) |
 | 7 | `ui_note_card` | 3 метода `oniks.ui` (карточки) |
 | 8 | `render_custom` | `oniks.renderer.register` |
@@ -432,7 +471,7 @@ oniks.ui.setNoteCardStyle({
 | `oniks.commands` | 1 | `commands` |
 | `oniks.editor` | 11 | — |
 | `oniks.notes` | 14 | `read_notes` / `write_notes` |
-| `oniks.dialog` | 2 | `ui_dialog` |
+| `oniks.dialog` | 4 | `ui_dialog` |
 | `oniks.renderer` | 1 | `render_custom` |
 | `oniks.graph` | 1 | `graph_style` |
 | `oniks.settings` | 6 | `read_settings` |
@@ -442,7 +481,7 @@ oniks.ui.setNoteCardStyle({
 | `oniks.events` | 2 | `events` |
 | `oniks.collections` | 5 | `collections` + `write_notes` |
 | `oniks.ui` | 9 | `read_notes`, `ui_theme`, `ui_note_card` |
-| **Всего** | **68** | **14 разрешений** |
+| **Всего** | **70** | **14 разрешений** |
 
 ---
 
