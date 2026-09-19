@@ -82,7 +82,7 @@ my-plugin.zip
 | `write_notes` | Изменение заметок | Требует диалога подтверждения при первом использовании |
 | `read_settings` | Чтение настроек | Пассивное |
 | `ui_panel` | Дополнительные панели | Зарезервировано |
-| `ui_dialog` | Показ диалогов (`alert`, `confirm`) | Пассивное |
+| `ui_dialog` | Показ диалогов (`alert`, `confirm`, `prompt`, `choose`) | Пассивное |
 | `ui_theme` | Выбор предустановленной темы приложения | Пассивное |
 | `ui_note_card` | Кастомизация карточек заметок | Пассивное |
 | `render_custom` | Препроцессор Markdown | Пассивное |
@@ -97,7 +97,7 @@ my-plugin.zip
 
 ## API: объект `oniks`
 
-В глобальной области плагина доступен объект `oniks` — точка входа в API Оникса. Всего 15 namespace, 68 методов.
+В глобальной области плагина доступен объект `oniks` — точка входа в API Оникса. Всего 15 namespace, 70 методов.
 
 ### `oniks.log`
 
@@ -220,9 +220,23 @@ oniks.dialog.alert("Сообщение", "Заголовок");          // OK �
 
 var ok = oniks.dialog.confirm("Продолжить?");          // true / false
 var ok = oniks.dialog.confirm("Текст", "Заголовок");   // с заголовком
+
+var name = oniks.dialog.prompt("Как вас зовут?");              // строка или undefined
+var name = oniks.dialog.prompt("Как вас зовут?", "Иван");      // с дефолтом
+var name = oniks.dialog.prompt("Вопрос", "Иван", "Заголовок"); // с дефолтом и заголовком
+
+var colors = ["Красный", "Зелёный", "Синий"];
+var idx = oniks.dialog.choose("Какой цвет?", colors);          // 0..N-1 или -1
+var idx = oniks.dialog.choose("Какой цвет?", colors, "Выбор"); // с заголовком
 ```
 
-**Важно:** эти вызовы **блокируют** выполнение до ответа пользователя. Не злоупотребляй.
+**Важно:** все четыре метода **блокируют** выполнение до ответа пользователя. Не злоупотребляй.
+
+**Возвраты:**
+- `alert` — ничего.
+- `confirm` — `true` / `false`.
+- `prompt` — введённая строка или `undefined` (при отмене).
+- `choose` — индекс выбранного (`0..N-1`) или `-1` (при отмене).
 
 ### `oniks.renderer`
 
@@ -656,7 +670,9 @@ if (notes.length === 0) {
 
 ## Работа с диалогами
 
-`oniks.dialog.alert` и `oniks.dialog.confirm` **блокируют** поток плагина. Не вызывай их в цикле — пользователь не сможет закрыть. Если нужно подтверждение для N элементов — вызови один раз для всех.
+Все четыре метода `oniks.dialog.*` (`alert`, `confirm`, `prompt`, `choose`) **блокируют** поток плагина. Не вызывай их в цикле — пользователь не сможет закрыть. Если нужно подтверждение для N элементов — вызови один раз для всех.
+
+`prompt` возвращает строку или `undefined` (при отмене). `choose` возвращает индекс (`0..N-1`) или `-1` (при отмене). Обязательно проверяй результат перед использованием.
 
 ## Работа с хранилищем
 
@@ -880,6 +896,73 @@ oniks.commands.register({
 });
 
 oniks.log.info("Compact Cards loaded");
+```
+
+## Пример: массовое переименование тегов
+
+**manifest.json:**
+
+```json
+{
+  "id": "com.example.renametag",
+  "name": "Rename Tag",
+  "version": "1.0.0",
+  "author": "John Doe",
+  "apiVersion": 1,
+  "entry": "main.js",
+  "permissions": ["commands", "read_notes", "write_notes", "ui_dialog"]
+}
+```
+
+**main.js:**
+
+```javascript
+// Rename Tag — переименовывает тег во всех заметках.
+
+oniks.commands.register({
+    id: "rename-tag",
+    title: "Переименовать тег",
+    handler: function () {
+        var oldTag = oniks.dialog.prompt("Старый тег:");
+        if (oldTag === undefined || oldTag === "") return;
+
+        var newTag = oniks.dialog.prompt("Новый тег:", oldTag);
+        if (newTag === undefined || newTag === "") return;
+
+        oldTag = oldTag.toLowerCase();
+        newTag = newTag.toLowerCase();
+
+        if (oldTag === newTag) {
+            oniks.dialog.alert("Теги совпадают.");
+            return;
+        }
+
+        var notes = oniks.notes.getAllWithBody();
+        var affected = 0;
+
+        for (var i = 0; i < notes.length; i++) {
+            var note = notes[i];
+            var tags = note.tags || [];
+            var found = false;
+
+            for (var j = 0; j < tags.length; j++) {
+                if (tags[j].toLowerCase() === oldTag) {
+                    tags[j] = newTag;
+                    found = true;
+                }
+            }
+
+            if (found) {
+                oniks.notes.update(note.id, { tags: tags });
+                affected++;
+            }
+        }
+
+        oniks.dialog.alert("Обновлено заметок: " + affected);
+    }
+});
+
+oniks.log.info("Rename Tag loaded");
 ```
 
 # Что делать, когда пользователь просит плагин
