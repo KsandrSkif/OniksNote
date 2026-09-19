@@ -1,6 +1,6 @@
 ## Description EN / [RU](#oniks-ru)
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.25-F57C00?style=plastic" alt="New version 1.25">
+<img src="https://img.shields.io/badge/New_version-1.25.1-F57C00?style=plastic" alt="New version 1.25.1">
 </p>
 
 # Oniks 
@@ -65,13 +65,13 @@ Oniks is an Android note-taking app inspired by Obsidian. Everything is stored l
 
 - **Install from `.zip`** — manifest + code + optional icon.
 - **Runtime** — Rhino JS (ES5), isolated thread per plugin.
-- **`oniks` API — 15 namespaces, 68 methods:**
+- **`oniks` API — 15 namespaces, 70 methods:**
   - `oniks.log` — logging
   - `oniks.storage` — local JSON storage
   - `oniks.commands` — commands in the editor menu (with optional icons from the Oniks whitelist)
   - `oniks.editor` — work with the active editor (including `getNoteId`)
   - `oniks.notes` — notes (read / write / search), including `getAllWithBody`, `getRecent`, `getPinned`
-  - `oniks.dialog` — `alert` / `confirm`
+  - `oniks.dialog` — `alert` / `confirm` / `prompt` / `choose`
   - `oniks.renderer` — Markdown preprocessor
   - `oniks.graph` — graph styling (`nodeStyler`, `edgeStyler`, `labelStyler`)
   - `oniks.settings` — read app settings
@@ -241,7 +241,8 @@ app/src/main/
 │   │                            # EditorBridge, PluginDialogBridge,
 │   │                            # PermissionRequestBridge, UIBridge,
 │   │                            # UIThemeBridge, UIThemePresets, UIThemeTokens,
-│   │                            # NoteCardStyle, NoteCardStyleBridge, PluginCommand
+│   │                            # NoteCardStyle, NoteCardStyleBridge,
+│   │                            # PluginInputBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   ├── ui/
@@ -256,7 +257,8 @@ app/src/main/
 │   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
 │   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
 │   │   │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
-│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment
+│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment,
+│   │   │                        # InputDialogFragment
 │   │   ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
 │   │   ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
 │   │   ├── tile/                # QuickVoiceNoteTileService
@@ -398,7 +400,7 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 | `read_notes` | Read notes (11 methods: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Modify notes (`create`, `update`, `delete`) and collections (`create`, `rename`, `delete`). Confirmation dialog on first use. |
 | `read_settings` | Read app settings |
-| `ui_dialog` | Show dialogs (`alert`, `confirm`) |
+| `ui_dialog` | Show dialogs (`alert`, `confirm`, `prompt`, `choose`) |
 | `ui_theme` | Choose a preset app theme (8 variants) |
 | `ui_note_card` | Customize note card style (full hex freedom) |
 | `render_custom` | Markdown preprocessor |
@@ -419,6 +421,7 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 - One thread per plugin.
 - **Themes** — only 8 preset ids. `setThemeColorsHex` picks the nearest preset, but exact hex is not guaranteed.
 - **Note card style** — full hex freedom, but applied only after returning to the notes list.
+- **`prompt` and `choose`** block the plugin thread until the user answers — don't call them in a loop.
 
 ### What a plugin can do
 
@@ -426,7 +429,7 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 - Insert or modify text in the editor (including the current note's `id` via `editor.getNoteId()`).
 - Create, read, update, delete notes.
 - Manage collections.
-- Show dialogs (`alert`, `confirm`).
+- Show dialogs (`alert`, `confirm`, `prompt`, `choose`).
 - Preprocess note text before rendering.
 - Change color, size, and outline of graph nodes and edges, and labels.
 - Read app settings.
@@ -437,6 +440,8 @@ If the name is not in the whitelist or `icon` is omitted — the command is show
 - Open a note in the viewer via `oniks.ui.openNote(id)`.
 - Choose one of 8 preset app themes via `oniks.ui.setTheme("red")`.
 - Customize note card style via `oniks.ui.setNoteCardStyle({...})` — colors, sizes, visibility.
+- Prompt the user for text input via `oniks.dialog.prompt(...)`.
+- Ask the user to pick from a list via `oniks.dialog.choose(...)`.
 
 ---
 
@@ -457,7 +462,7 @@ phreakO7@mail.ru
 ## Описание RU / [EN](#oniks)
 
 <p align="center">
-<img src="https://img.shields.io/badge/New_version-1.25-F57C00?style=plastic" alt="New version 1.25">
+<img src="https://img.shields.io/badge/New_version-1.25.1-F57C00?style=plastic" alt="New version 1.25.1">
 </p>
 
 # Oniks-ru
@@ -522,13 +527,13 @@ phreakO7@mail.ru
 
 - **Установка из `.zip`** — манифест + код + опциональная иконка.
 - **Runtime** — Rhino JS (ES5), изолированный поток на плагин.
-- **API `oniks` — 15 namespace, 68 методов:**
+- **API `oniks` — 15 namespace, 70 методов:**
   - `oniks.log` — логирование
   - `oniks.storage` — локальное JSON-хранилище
   - `oniks.commands` — команды в меню редактора (с опциональными иконками из белого списка Оникса)
   - `oniks.editor` — работа с активным редактором (включая `getNoteId`)
   - `oniks.notes` — заметки (чтение / запись / поиск), включая `getAllWithBody`, `getRecent`, `getPinned`
-  - `oniks.dialog` — `alert` / `confirm`
+  - `oniks.dialog` — `alert` / `confirm` / `prompt` / `choose`
   - `oniks.renderer` — препроцессор Markdown
   - `oniks.graph` — стилизация графа (`nodeStyler`, `edgeStyler`, `labelStyler`)
   - `oniks.settings` — чтение настроек приложения
@@ -697,7 +702,8 @@ app/src/main/
 │   │                            # EditorBridge, PluginDialogBridge,
 │   │                            # PermissionRequestBridge, UIBridge,
 │   │                            # UIThemeBridge, UIThemePresets, UIThemeTokens,
-│   │                            # NoteCardStyle, NoteCardStyleBridge, PluginCommand
+│   │                            # NoteCardStyle, NoteCardStyleBridge,
+│   │                            # PluginInputBridge, PluginCommand
 │   ├── di/
 │   │   └── AppContainer.kt
 │   ├── ui/
@@ -712,7 +718,8 @@ app/src/main/
 │   │   ├── collections/         # CollectionsFragment, CollectionsViewModel
 │   │   ├── plugins/             # PluginsFragment, PluginsAdapter, PluginPermissionsFragment,
 │   │   │                        # PluginDetailsDialogFragment, PluginInstallDialogFragment,
-│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment
+│   │   │                        # PluginDialogFragment, PermissionRequestDialogFragment,
+│   │   │                        # InputDialogFragment
 │   │   ├── guide/               # MarkdownGuideFragment, PluginGuideFragment
 │   │   ├── settings/            # SettingsFragment, AboutFragment, PrivacyPolicyDialogFragment
 │   │   ├── tile/                # QuickVoiceNoteTileService
@@ -853,7 +860,7 @@ search, settings, share, sort, star, undo, warning
 | `read_notes` | Чтение заметок (11 методов: `getAll`, `getAllWithBody`, `getRecent`, `getPinned`, `getNote`, `getMeta`, `search`, `getByTag`, `getByCollection`, `getBacklinks`, `getAllTitles`) + `oniks.ui.openNote` |
 | `write_notes` | Изменение заметок (`create`, `update`, `delete`) и коллекций (`create`, `rename`, `delete`). Диалог подтверждения при первом использовании. |
 | `read_settings` | Чтение настроек приложения |
-| `ui_dialog` | Показ диалогов (`alert`, `confirm`) |
+| `ui_dialog` | Показ диалогов (`alert`, `confirm`, `prompt`, `choose`) |
 | `ui_theme` | Выбор предустановленной темы приложения (8 вариантов) |
 | `ui_note_card` | Кастомизация карточек заметок (полная свобода hex) |
 | `render_custom` | Препроцессор Markdown |
@@ -874,6 +881,7 @@ search, settings, share, sort, star, undo, warning
 - Один поток на плагин.
 - **Темы** — только 8 предустановленных id. `setThemeColorsHex` подбирает ближайшую, но точный hex не гарантируется.
 - **Стиль карточек** — полная свобода hex, но применяется только при следующем возврате в список заметок.
+- **`prompt` и `choose`** блокируют поток плагина до ответа пользователя — не вызывайте в цикле.
 
 ### Что может плагин
 
@@ -881,7 +889,7 @@ search, settings, share, sort, star, undo, warning
 - Вставлять и изменять текст в редакторе (включая `id` текущей заметки через `editor.getNoteId()`).
 - Создавать, читать, изменять, удалять заметки.
 - Управлять коллекциями.
-- Показывать диалоги (`alert`, `confirm`).
+- Показывать диалоги (`alert`, `confirm`, `prompt`, `choose`).
 - Препроцессить текст заметки перед рендером.
 - Менять цвет, размер и обводку узлов и рёбер графа, а также подписи.
 - Читать настройки приложения.
@@ -892,6 +900,8 @@ search, settings, share, sort, star, undo, warning
 - Открывать заметку в просмотрщике через `oniks.ui.openNote(id)`.
 - Выбирать одну из 8 предустановленных тем приложения через `oniks.ui.setTheme("red")`.
 - Настраивать стиль карточек заметок через `oniks.ui.setNoteCardStyle({...})` — цвета, размеры, видимость.
+- Запрашивать у пользователя ввод текста через `oniks.dialog.prompt(...)`.
+- Предлагать выбор из списка через `oniks.dialog.choose(...)`.
 
 ---
 
